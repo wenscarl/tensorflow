@@ -3194,10 +3194,10 @@ cuda_py_test(
     ],
 )
 
-cuda_py_test(
-    name = "sparse_tensor_dense_matmul_op_test",
-    size = "medium",
-    srcs = ["sparse_tensor_dense_matmul_op_test.py"],
+py_library(
+    name = "sparse_tensor_dense_matmul_op_base",
+    srcs = ["sparse_tensor_dense_matmul_op_base.py"],
+    srcs_version = "PY3",
     deps = [
         "//tensorflow/core:protos_all_py",
         "//tensorflow/python:array_ops",
@@ -3210,6 +3210,25 @@ cuda_py_test(
         "//tensorflow/python:platform",
         "//tensorflow/python:sparse_ops",
         "//third_party/py/numpy",
+    ],
+)
+
+cuda_py_test(
+    name = "sparse_tensor_dense_matmul_op_test",
+    size = "medium",
+    srcs = ["sparse_tensor_dense_matmul_op_test.py"],
+    tfrt_enabled = True,
+    deps = [
+        ":sparse_tensor_dense_matmul_op_base",
+    ],
+)
+
+cuda_py_test(
+    name = "sparse_tensor_dense_matmul_op_deterministic_test",
+    size = "small",
+    srcs = ["sparse_tensor_dense_matmul_op_deterministic_test.py"],
+    deps = [
+        ":sparse_tensor_dense_matmul_op_base",
     ],
 )
 
