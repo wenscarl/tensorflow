@@ -573,6 +573,61 @@ REGISTER_OP("Einsum")
     .Attr("T: type")
     .SetShapeFn(shape_inference::EinsumShape);
 
+//REGISTER_OP("Einsum")
+//    .Attr("T: type")
+//    .Attr("equation: string")
+//    .Attr("N: int >= 1")
+//    .Input("inputs: N * T")
+//    .Output("output: T")
+//    .SetShapeFn([](shape_inference::InferenceContext* c) {
+//      using namespace shape_inference;
+//
+//      std::string equation;
+//      TF_RETURN_IF_ERROR(c->GetAttr("equation", &equation));
+//
+//      ShapeHandle input_0_shape = c->input(0);
+//
+//      ShapeHandle input_1_shape = c->input(1);
+//
+//      std::vector<std::string> lhs_and_rhs = absl::StrSplit(equation, "->");
+//      assert(lhs_and_rhs.size() == 2);
+//      auto modeC = lhs_and_rhs[1];
+//
+//      lhs_and_rhs = absl::StrSplit(lhs_and_rhs[0], ",");
+//      bool useB = lhs_and_rhs.size() == 2;
+//      assert(lhs_and_rhs.size() <= 2);
+//      auto modeA = lhs_and_rhs[0];
+//      auto modeB = lhs_and_rhs[useB ? 1 : 0];
+//
+//      std::unordered_map<char, DimensionHandle> dim_map;
+//
+//      assert(modeA.size() == c->Rank(input_0_shape));
+//      for (int i = 0; i < modeA.size(); i++) {
+//        dim_map[modeA[i]] = c->Dim(input_0_shape, i);
+//      }
+//
+//      assert((! useB) || (modeB.size() == c->Rank(input_1_shape)));
+//      for (int i = 0; useB && (i < modeB.size()); i++) {
+//        if (dim_map.find(modeB[i]) == dim_map.end()) {
+//          dim_map[modeB[i]] = c->Dim(input_1_shape, i);
+//        } else {
+//          DimensionHandle out;
+//          TF_RETURN_IF_ERROR(c->Merge(c->Dim(input_1_shape, i), dim_map[modeB[i]], &out));
+//        }
+//      }
+//
+//      std::vector<DimensionHandle> output_dims;
+//      for (auto mode : modeC) {
+//        output_dims.push_back(dim_map[mode]);
+//      }
+//
+//      ShapeHandle output_shape = c->MakeShape(output_dims);
+//      c->set_output(0, output_shape);
+//
+//      return Status::OK();
+//    });
+
+
 // Deprecated op registrations:
 
 // Can be deleted after 3feb2017.

@@ -332,6 +332,18 @@ class StreamExecutorInterface {
   // initialization fails.
   virtual fft::FftSupport *CreateFft() { return nullptr; }
 
+  // Returns whether this StreamExecutor has TSR support for its underlying
+  // platform.
+  virtual bool SupportsTsr() const { return false; }
+
+  // Creates a new tsr::TsrSupport object, ownership is transferred to the
+  // caller.
+  // If SupportsTsr() is false, this will always return null.
+  //
+  // If SupportsTsr() is true, this may return null, for example, if the TSR
+  // initialization fails.
+  virtual tsr::TsrSupport *CreateTsr() { return nullptr; }
+
   // Returns whether this StreamExecutor has Random Number Generation support
   // for
   // its underlying platform.

@@ -17,24 +17,23 @@ limitations under the License.
 
 namespace tensorflow {
 
-#define REGISTER_EINSUM(D, TYPE)                                   \
-  REGISTER_KERNEL_BUILDER(                                         \
-      Name("Einsum").Device(DEVICE_##D).TypeConstraint<TYPE>("T"), \
-      EinsumOp<D##Device, TYPE>);
 
-#define REGISTER_CPU(TYPE) REGISTER_EINSUM(CPU, TYPE)
-TF_CALL_complex128(REGISTER_CPU);
-#undef REGISTER_CPU
+#define REGISTER_EINSUM_KERNELS_CPU(TYPE)                             \
+  REGISTER_KERNEL_BUILDER(                                         \
+      Name("Einsum").Device(DEVICE_CPU).TypeConstraint<TYPE>("T"), \
+      EinsumCpuOp<TYPE>);
+TF_CALL_complex128(REGISTER_EINSUM_KERNELS_CPU);
+#undef REGISTER_EINSUM_KERNELS_CPU
 
 #if GOOGLE_CUDA || TENSORFLOW_USE_ROCM
-#define REGISTER_GPU(TYPE) REGISTER_EINSUM(GPU, TYPE)
-// TODO(rocm): Enable once complex types are supported.
-#if GOOGLE_CUDA
-TF_CALL_complex128(REGISTER_GPU);
-#endif
-#undef REGISTER_GPU
+#define REGISTER_EINSUM_KERNELS_GPU(TYPE)                             \
+ REGISTER_KERNEL_BUILDER(                                         \
+     Name("Einsum").Device(DEVICE_GPU).TypeConstraint<TYPE>("T"), \
+     EinsumGpuOp<TYPE>);
+
+TF_CALL_complex128(REGISTER_EINSUM_KERNELS_GPU);
+#undef REGISTER_EINSUM_KERNELS_GPU
 #endif  // GOOGLE_CUDA || TENSORFLOW_USE_ROCM
 
-#undef REGISTER_EINSUM
 
 }  // namespace tensorflow

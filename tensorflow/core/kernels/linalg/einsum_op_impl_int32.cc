@@ -17,14 +17,12 @@ limitations under the License.
 
 namespace tensorflow {
 
-#define REGISTER_EINSUM(D, TYPE)                                   \
+#define REGISTER_EINSUM_CPU(TYPE)                                  \
   REGISTER_KERNEL_BUILDER(                                         \
-      Name("Einsum").Device(DEVICE_##D).TypeConstraint<TYPE>("T"), \
-      EinsumOp<D##Device, TYPE>);
+      Name("Einsum").Device(DEVICE_CPU).TypeConstraint<TYPE>("T"), \
+      EinsumCpuOp<TYPE>);
 
-#define REGISTER_CPU(TYPE) REGISTER_EINSUM(CPU, TYPE)
-TF_CALL_int32(REGISTER_CPU);
-#undef REGISTER_CPU
+TF_CALL_int32(REGISTER_EINSUM_CPU);
 
 #undef REGISTER_EINSUM
 

@@ -23,11 +23,12 @@ namespace stream_executor {
 PLUGIN_REGISTRY_DEFINE_PLUGIN_ID(PluginConfig::kDefault);
 
 PluginConfig::PluginConfig()
-    : blas_(kDefault), dnn_(kDefault), fft_(kDefault), rng_(kDefault) {}
+    : blas_(kDefault), dnn_(kDefault), fft_(kDefault), rng_(kDefault),
+      tsr_(kDefault) {}
 
 bool PluginConfig::operator==(const PluginConfig& rhs) const {
   return blas_ == rhs.blas_ && dnn_ == rhs.dnn_ && fft_ == rhs.fft_ &&
-         rng_ == rhs.rng_;
+         rng_ == rhs.rng_ && tsr_ == rhs.tsr_;
 }
 
 PluginConfig& PluginConfig::SetBlas(PluginId blas) {
@@ -47,6 +48,11 @@ PluginConfig& PluginConfig::SetFft(PluginId fft) {
 
 PluginConfig& PluginConfig::SetRng(PluginId rng) {
   rng_ = rng;
+  return *this;
+}
+
+PluginConfig& PluginConfig::SetTsr(PluginId tsr) {
+  tsr_ = tsr;
   return *this;
 }
 

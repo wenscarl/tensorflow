@@ -4962,6 +4962,22 @@ Stream &Stream::ThenFft(fft::Plan *plan,
   return *this;
 }
 
+Stream &Stream::ThenTsrContraction(const void *A_raw,
+                                   const void* B_raw,
+                                   void* C_raw,
+                                   void *work_raw) {
+
+  if (tsr::TsrSupport *tsr = parent_->AsTsr()) {
+    CheckError(tsr->DoTsrContraction(this, A_raw, B_raw, C_raw, work_raw));
+  } else {
+    SetError();
+    LOG(INFO) << DebugStreamPointers()
+              << " attempting to perform TSR operation using StreamExecutor"
+                 " without TSR support";
+  }
+  return *this;
+}
+
 // It looks confusing, but all this is doing is inserting a callback at the
 // present point in the stream to then enqueue a task on the host executor.
 Stream &Stream::ThenEnqueueOnBackgroundThread(

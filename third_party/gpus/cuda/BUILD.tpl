@@ -127,6 +127,15 @@ cuda_header_library(
     deps = [":cuda_headers"],
 )
 
+cuda_header_library(
+    name = "cutensor_headers",
+    hdrs = [":cutensor-include"],
+    include_prefix = "third_party/gpus/cuda/include",
+    includes = ["cutensor/include"],
+    strip_include_prefix = "cutensor/include",
+    deps = [":cuda_headers"],
+)
+
 cc_library(
     name = "cublas",
     srcs = ["cuda/lib/%{cublas_lib}"],
@@ -179,6 +188,13 @@ cc_library(
 )
 
 cc_library(
+    name = "cutensor",
+    srcs = ["cuda/lib/%{cutensor_lib}"],
+    data = ["cuda/lib/%{cutensor_lib}"],
+    linkstatic = 1,
+)
+
+cc_library(
     name = "cuda",
     deps = [
         ":cublas",
@@ -188,6 +204,7 @@ cc_library(
         ":cudnn",
         ":cufft",
         ":curand",
+        ":cutensor",
     ],
 )
 

@@ -36,6 +36,7 @@ string GetCudnnVersion() { return TF_CUDNN_VERSION; }
 string GetCublasVersion() { return TF_CUBLAS_VERSION; }
 string GetCusolverVersion() { return TF_CUSOLVER_VERSION; }
 string GetCurandVersion() { return TF_CURAND_VERSION; }
+string GetCutensorVersion() { return TF_CUTENSOR_VERSION; }
 string GetCufftVersion() { return TF_CUFFT_VERSION; }
 string GetCusparseVersion() { return TF_CUSPARSE_VERSION; }
 string GetTensorRTVersion() { return TF_TENSORRT_VERSION; }
@@ -105,6 +106,10 @@ port::StatusOr<void*> GetCurandDsoHandle() {
   return GetDsoHandle("curand", GetCurandVersion());
 }
 
+port::StatusOr<void*> GetCutensorDsoHandle() {
+  return GetDsoHandle("cutensor", GetCutensorVersion());
+}
+
 port::StatusOr<void*> GetCuptiDsoHandle() {
   // Load specific version of CUPTI this is built.
   auto status_or_handle = GetDsoHandle("cupti", GetCudaVersion());
@@ -172,6 +177,11 @@ port::StatusOr<void*> GetCublasLtDsoHandle() {
 
 port::StatusOr<void*> GetCurandDsoHandle() {
   static auto result = new auto(DsoLoader::GetCurandDsoHandle());
+  return *result;
+}
+
+port::StatusOr<void*> GetCutensorDsoHandle() {
+  static auto result = new auto(DsoLoader::GetCutensorDsoHandle());
   return *result;
 }
 

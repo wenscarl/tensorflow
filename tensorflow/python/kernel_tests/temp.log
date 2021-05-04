@@ -1,0 +1,1110 @@
+==================== Test output for //tensorflow/python/kernel_tests:sparse_tensor_dense_matmul_op_deterministic_test:
+Running test /root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test  on GPU 0
+2021-03-22 16:51:58.022353: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+Running tests under Python 3.6.9: /usr/bin/python3
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.testBasic
+2021-03-22 16:51:58.488249: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
+2021-03-22 16:51:59.243810: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:51:59.243861: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2021-03-22 16:51:59.246797: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.11
+2021-03-22 16:51:59.246866: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublasLt.so.11
+2021-03-22 16:51:59.248064: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2021-03-22 16:51:59.248375: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2021-03-22 16:51:59.250907: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.10
+2021-03-22 16:51:59.251519: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.11
+2021-03-22 16:51:59.251634: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.8
+2021-03-22 16:51:59.252476: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:51:59.253029: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-03-22 16:51:59.254187: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:51:59.254908: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:51:59.254939: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.11.0
+2021-03-22 16:51:59.777658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:51:59.777689: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:51:59.777694: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:51:59.778896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:51:59.794813: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 11085217792 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794846: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 9976695808 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794850: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 8979025920 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794853: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 8081123328 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794856: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 7273010688 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794860: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 6545709568 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794863: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 5891138560 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794866: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 5302024704 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794869: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 4771822080 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794872: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 4294639872 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794875: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 3865175808 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794878: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 3478658048 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794881: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 3130792192 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794884: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 2817712896 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794887: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 2535941632 on device 0 within provided limit. [used=0, limit=2147483648]
+2021-03-22 16:51:59.794890: W tensorflow/stream_executor/stream_executor_pimpl.cc:490] Not enough memory to allocate 2282347520 on device 0 within provided limit. [used=0, limit=2147483648]
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:58: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  x_mat = np.matrix(x)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:61: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  y_mat = np.matrix(y)
+/usr/local/lib/python3.6/dist-packages/numpy/matrixlib/defmatrix.py:71: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  return matrix(data, dtype=dtype, copy=False)
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testBasic): 1.34s
+I0322 16:51:59.825295 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testBasic): 1.34s
+[       OK ] SparseTensorDenseMatmulDeterministicTest.testBasic
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.testDeterministicSparseDenseMatmul
+WARNING:tensorflow:From /usr/lib/python3.6/contextlib.py:60: TensorFlowTestCase.test_session (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `self.session()` or `self.cached_session()` instead.
+W0322 16:51:59.825795 140025542285120 deprecation.py:336] From /usr/lib/python3.6/contextlib.py:60: TensorFlowTestCase.test_session (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `self.session()` or `self.cached_session()` instead.
+2021-03-22 16:51:59.826618: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:51:59.827253: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:51:59.827273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:51:59.827277: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:51:59.827281: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:51:59.827919: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+WARNING:tensorflow:From /root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py:1496: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+W0322 16:51:59.828583 140025542285120 deprecation.py:336] From /root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py:1496: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+2021-03-22 16:51:59.829114: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:51:59.829772: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:51:59.829787: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:51:59.829790: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:51:59.829794: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:51:59.830457: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:51:59.830890: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:51:59.831500: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:51:59.831512: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:51:59.831516: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:51:59.831519: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:51:59.832143: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:00.300321: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:00.300979: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:00.301005: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:00.301010: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:00.301014: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:00.301655: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:00.302141: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:00.302752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:00.302764: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:00.302768: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:00.302771: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:00.303395: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:00.324664: I tensorflow/core/platform/profile_utils/cpu_utils.cc:114] CPU Frequency: 3499910000 Hz
+2021-03-22 16:52:01.066844: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:01.067502: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:01.067530: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:01.067535: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:01.067538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:01.068186: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:01.068709: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:01.069322: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:01.069335: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:01.069339: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:01.069342: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:01.069968: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:01.757250: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:01.757907: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:01.757934: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:01.757939: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:01.757943: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:01.758592: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:01.759103: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:01.759720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:01.759733: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:01.759737: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:01.759741: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:01.760375: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:01.798403: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+ERROR:tensorflow:2 root error(s) found.
+  (0) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+	 [[SparseTensorDenseMatMul_12/SparseTensorDenseMatMul/_3]]
+  (1) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+0 successful operations.
+0 derived errors ignored.
+
+Errors may have originated from an input operation.
+Input Source operations connected to node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul:
+ SparseTensor_2/indices (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_2 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Input Source operations connected to node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul:
+ SparseTensor_2/indices (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_2 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Original stack trace for 'SparseTensorDenseMatMul_12/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1499, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1466, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 88, in testDeterministicSparseDenseMatmul
+    sparse_input, dense_input)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+E0322 16:52:01.806388 140025542285120 test_util.py:1715] 2 root error(s) found.
+  (0) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+	 [[SparseTensorDenseMatMul_12/SparseTensorDenseMatMul/_3]]
+  (1) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+0 successful operations.
+0 derived errors ignored.
+
+Errors may have originated from an input operation.
+Input Source operations connected to node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul:
+ SparseTensor_2/indices (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_2 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Input Source operations connected to node SparseTensorDenseMatMul_12/SparseTensorDenseMatMul:
+ SparseTensor_2/indices (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_2 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Original stack trace for 'SparseTensorDenseMatMul_12/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1499, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1466, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 88, in testDeterministicSparseDenseMatmul
+    sparse_input, dense_input)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+2021-03-22 16:52:02.723065: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:02.723723: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:02.723749: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:02.723754: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:02.723767: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:02.724424: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:02.724925: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:02.725537: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:02.725549: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:02.725553: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:02.725556: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:02.726183: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:04.004428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:04.005087: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:04.005115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:04.005120: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:04.005124: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:04.005769: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:04.006266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:04.006876: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:04.006889: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:04.006893: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:04.006896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:04.007522: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:04.081479: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+ERROR:tensorflow:2 root error(s) found.
+  (0) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+	 [[SparseTensorDenseMatMul_19/SparseTensorDenseMatMul/_3]]
+  (1) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+0 successful operations.
+0 derived errors ignored.
+
+Errors may have originated from an input operation.
+Input Source operations connected to node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul:
+ SparseTensor_4/dense_shape (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_4 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Input Source operations connected to node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul:
+ SparseTensor_4/dense_shape (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_4 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Original stack trace for 'SparseTensorDenseMatMul_19/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1499, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1466, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 88, in testDeterministicSparseDenseMatmul
+    sparse_input, dense_input)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+E0322 16:52:04.092450 140025542285120 test_util.py:1715] 2 root error(s) found.
+  (0) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+	 [[SparseTensorDenseMatMul_19/SparseTensorDenseMatMul/_3]]
+  (1) Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+	 [[node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:88) ]]
+0 successful operations.
+0 derived errors ignored.
+
+Errors may have originated from an input operation.
+Input Source operations connected to node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul:
+ SparseTensor_4/dense_shape (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_4 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Input Source operations connected to node SparseTensorDenseMatMul_19/SparseTensorDenseMatMul:
+ SparseTensor_4/dense_shape (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:59)	
+ Const_4 (defined at root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py:61)
+
+Original stack trace for 'SparseTensorDenseMatMul_19/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1499, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1466, in decorated
+    return f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 88, in testDeterministicSparseDenseMatmul
+    sparse_input, dense_input)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testDeterministicSparseDenseMatmul): 4.27s
+I0322 16:52:04.094502 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testDeterministicSparseDenseMatmul): 4.27s
+2021-03-22 16:52:04.095665: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:04.096730: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:04.096762: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:04.096770: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:04.096776: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:04.097830: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:04.098488: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:04.099513: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:04.099532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:04.099538: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:04.099543: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:04.100529: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:05.179717: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+2021-03-22 16:52:05.871985: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Unimplemented: No deterministic GPU implementation of float64 or complex128 for sparse_dense_matmul
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testDeterministicSparseDenseMatmul): 1.78s
+I0322 16:52:05.872269 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testDeterministicSparseDenseMatmul): 1.78s
+[       OK ] SparseTensorDenseMatmulDeterministicTest.testDeterministicSparseDenseMatmul
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.testFloatRandom
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testFloatRandom): 0.22s
+I0322 16:52:06.096899 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testFloatRandom): 0.22s
+[       OK ] SparseTensorDenseMatmulDeterministicTest.testFloatRandom
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmul
+2021-03-22 16:52:06.098031: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:06.098671: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:06.098692: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:06.098696: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:06.098700: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:06.099337: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+2021-03-22 16:52:06.103097: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1652] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
+2021-03-22 16:52:06.103580: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Invalid argument: k (10) from index[0,1] out of bounds (>=2)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:162: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  indices = np.matrix([[1, 10]]).astype(np.int64)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:169: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 5, [2] * 5], dtype=np.float32)
+ERROR:tensorflow:k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 171, in testInvalidIndicesForSparseTensorDenseMatmul
+    self.evaluate(sparse_ops.sparse_tensor_dense_matmul(sparse_t, dense_t))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+E0322 16:52:06.106672 140025542285120 test_util.py:1715] k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 171, in testInvalidIndicesForSparseTensorDenseMatmul
+    self.evaluate(sparse_ops.sparse_tensor_dense_matmul(sparse_t, dense_t))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+INFO:tensorflow:Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul/SparseTensorDenseMatMul'
+I0322 16:52:06.106826 140025542285120 test_util.py:3086] Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul/SparseTensorDenseMatMul'
+2021-03-22 16:52:06.109886: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Invalid argument: k (10) from index[0,1] out of bounds (>=2)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:172: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 500, [2] * 500], dtype=np.float32)
+ERROR:tensorflow:k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_1/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul_1/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 174, in testInvalidIndicesForSparseTensorDenseMatmul
+    self.evaluate(sparse_ops.sparse_tensor_dense_matmul(sparse_t, dense_t))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+E0322 16:52:06.112753 140025542285120 test_util.py:1715] k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_1/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul_1/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 174, in testInvalidIndicesForSparseTensorDenseMatmul
+    self.evaluate(sparse_ops.sparse_tensor_dense_matmul(sparse_t, dense_t))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+INFO:tensorflow:Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_1/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul_1/SparseTensorDenseMatMul'
+I0322 16:52:06.112885 140025542285120 test_util.py:3086] Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_1/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul_1/SparseTensorDenseMatMul'
+2021-03-22 16:52:06.115474: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:149 : Invalid argument: m (10) from index[0,1] out of bounds (>=2)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:177: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 5, [2] * 5, [3] * 5], dtype=np.float32)
+ERROR:tensorflow:m (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_2/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul_2/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 181, in testInvalidIndicesForSparseTensorDenseMatmul
+    sparse_t, dense_t, adjoint_a=True))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+E0322 16:52:06.118287 140025542285120 test_util.py:1715] m (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_2/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul_2/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 181, in testInvalidIndicesForSparseTensorDenseMatmul
+    sparse_t, dense_t, adjoint_a=True))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+INFO:tensorflow:Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_2/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul_2/SparseTensorDenseMatMul'
+I0322 16:52:06.118412 140025542285120 test_util.py:3086] Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_2/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul_2/SparseTensorDenseMatMul'
+2021-03-22 16:52:06.121390: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:149 : Invalid argument: m (10) from index[0,1] out of bounds (>=2)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:182: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 500, [2] * 500, [3] * 500], dtype=np.float32)
+ERROR:tensorflow:m (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_3/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul_3/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 186, in testInvalidIndicesForSparseTensorDenseMatmul
+    sparse_t, dense_t, adjoint_a=True))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+E0322 16:52:06.124202 140025542285120 test_util.py:1715] m (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_3/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+
+Original stack trace for 'SparseTensorDenseMatMul_3/SparseTensorDenseMatMul':
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.py", line 105, in <module>
+    test.main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/test.py", line 58, in main
+    return _googletest.main(argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 66, in main
+    benchmark.benchmarks_main(true_main=main_wrapper, argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/benchmark.py", line 518, in benchmarks_main
+    true_main()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 64, in main_wrapper
+    return app.run(main=g_main, argv=args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/platform/googletest.py", line 55, in g_main
+    absltest_main(argv=argv)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 1948, in main
+    _run_in_app(run_tests, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2055, in _run_in_app
+    function(argv, args, kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2334, in run_tests
+    argv, args, kwargs, xml_reporter.TextAndXMLTestRunner)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/absl_py/absl/testing/absltest.py", line 2304, in _run_and_get_tests_result
+    test_program = unittest.TestProgram(*args, **kwargs)
+  File "usr/lib/python3.6/unittest/main.py", line 95, in __init__
+    self.runTests()
+  File "usr/lib/python3.6/unittest/main.py", line 256, in runTests
+    self.result = testRunner.run(self.test)
+  File "usr/lib/python3.6/unittest/runner.py", line 176, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/suite.py", line 122, in run
+    test(result)
+  File "usr/lib/python3.6/unittest/case.py", line 653, in __call__
+    return self.run(*args, **kwds)
+  File "usr/lib/python3.6/unittest/case.py", line 605, in run
+    testMethod()
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py", line 1193, in decorated
+    f(self, *args, **kwargs)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py", line 186, in testInvalidIndicesForSparseTensorDenseMatmul
+    sparse_t, dense_t, adjoint_a=True))
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/sparse_ops.py", line 2657, in sparse_tensor_dense_matmul
+    adjoint_b=adjoint_b)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/ops/gen_sparse_ops.py", line 3070, in sparse_tensor_dense_mat_mul
+    adjoint_b=adjoint_b, name=name)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 3554, in _create_op_internal
+    op_def=op_def)
+  File "root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/ops.py", line 2034, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+INFO:tensorflow:Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_3/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul_3/SparseTensorDenseMatMul'
+I0322 16:52:06.124333 140025542285120 test_util.py:3086] Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2)
+	 [[node SparseTensorDenseMatMul_3/SparseTensorDenseMatMul (defined at usr/lib/python3.6/unittest/case.py:605) ]]
+Caused by: SparseTensorDenseMatMul_3/SparseTensorDenseMatMul'
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmul): 0.03s
+I0322 16:52:06.124439 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmul): 0.03s
+2021-03-22 16:52:06.125210: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Invalid argument: k (10) from index[0,1] out of bounds (>=2)
+INFO:tensorflow:Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+I0322 16:52:06.125279 140025542285120 test_util.py:3086] Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+2021-03-22 16:52:06.125633: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:147 : Invalid argument: k (10) from index[0,1] out of bounds (>=2)
+INFO:tensorflow:Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+I0322 16:52:06.125684 140025542285120 test_util.py:3086] Searching within error strings: 'k .10. from index.0,1. out of bounds .>=2.' within 'k (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+2021-03-22 16:52:06.125880: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:149 : Invalid argument: m (10) from index[0,1] out of bounds (>=2)
+INFO:tensorflow:Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+I0322 16:52:06.125930 140025542285120 test_util.py:3086] Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+2021-03-22 16:52:06.126325: W tensorflow/core/framework/op_kernel.cc:1763] OP_REQUIRES failed at sparse_tensor_dense_matmul_op.cc:149 : Invalid argument: m (10) from index[0,1] out of bounds (>=2)
+INFO:tensorflow:Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+I0322 16:52:06.126370 140025542285120 test_util.py:3086] Searching within error strings: 'm .10. from index.0,1. out of bounds .>=2.' within 'm (10) from index[0,1] out of bounds (>=2) [Op:SparseTensorDenseMatMul]'
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmul): 0.0s
+I0322 16:52:06.126504 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmul): 0.0s
+[       OK ] SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmul
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmulOnGPU
+2021-03-22 16:52:06.127194: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1779] Found device 0 with properties: 
+pciBusID: 0000:17:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.455GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2021-03-22 16:52:06.127816: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1917] Adding visible gpu devices: 0
+2021-03-22 16:52:06.127839: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-03-22 16:52:06.127843: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1310]      0 
+2021-03-22 16:52:06.127847: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1323] 0:   N 
+2021-03-22 16:52:06.128488: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1464] Created TensorFlow device (/device:GPU:0 with 10571 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:17:00.0, compute capability: 7.0)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:197: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 5, [2] * 5], dtype=np.float32)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/framework/test_util.py:2600: RuntimeWarning: invalid value encountered in greater
+  np.abs(a - b) > atol + rtol * np.abs(b),
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:201: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 500, [2] * 500], dtype=np.float32)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:211: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 5, [2] * 5, [3] * 5], dtype=np.float32)
+/root/.cache/bazel/_bazel_root/885cbc15317b1cd6dc7ad54aec99609d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_deterministic_test.runfiles/org_tensorflow/tensorflow/python/kernel_tests/sparse_tensor_dense_matmul_op_base.py:218: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+  dense_t = np.matrix([[1] * 500, [2] * 500, [3] * 500], dtype=np.float32)
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmulOnGPU): 0.0s
+I0322 16:52:06.131752 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmulOnGPU): 0.0s
+[       OK ] SparseTensorDenseMatmulDeterministicTest.testInvalidIndicesForSparseTensorDenseMatmulOnGPU
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.testShapeInference
+INFO:tensorflow:time(__main__.SparseTensorDenseMatmulDeterministicTest.testShapeInference): 0.0s
+I0322 16:52:06.136792 140025542285120 test_util.py:2083] time(__main__.SparseTensorDenseMatmulDeterministicTest.testShapeInference): 0.0s
+[       OK ] SparseTensorDenseMatmulDeterministicTest.testShapeInference
+[ RUN      ] SparseTensorDenseMatmulDeterministicTest.test_session
+[  SKIPPED ] SparseTensorDenseMatmulDeterministicTest.test_session
+----------------------------------------------------------------------
+Ran 7 tests in 7.650s
+
+OK (skipped=1)
+================================================================================
+//tensorflow/python/kernel_tests:sparse_tensor_dense_matmul_op_deterministic_test PASSED in 9.1s
+
+Executed 1 out of 1 test: 1 test passes.

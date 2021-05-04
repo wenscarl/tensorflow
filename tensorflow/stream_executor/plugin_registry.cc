@@ -37,14 +37,17 @@ std::string PluginKindString(PluginKind plugin_kind) {
       return "FFT";
     case PluginKind::kRng:
       return "RNG";
-    case PluginKind::kInvalid:
+    case PluginKind::kTsr:
+      return "TSR";
+     case PluginKind::kInvalid:
     default:
       return "kInvalid";
   }
 }
 
 PluginRegistry::DefaultFactories::DefaultFactories() :
-    blas(kNullPlugin), dnn(kNullPlugin), fft(kNullPlugin), rng(kNullPlugin) { }
+    blas(kNullPlugin), dnn(kNullPlugin), fft(kNullPlugin), rng(kNullPlugin),
+    tsr(kNullPlugin) { }
 
 static absl::Mutex& GetPluginRegistryMutex() {
   static absl::Mutex mu(absl::kConstInit);
@@ -136,6 +139,9 @@ bool PluginRegistry::SetDefaultFactory(Platform::Id platform_id,
     case PluginKind::kRng:
       default_factories_[platform_id].rng = plugin_id;
       break;
+    case PluginKind::kTsr:
+      default_factories_[platform_id].tsr = plugin_id;
+      break;
     default:
       LOG(ERROR) << "Invalid plugin kind specified: "
                  << static_cast<int>(plugin_kind);
@@ -157,6 +163,8 @@ bool PluginRegistry::HasFactory(const PluginFactories& factories,
       return factories.fft.find(plugin_id) != factories.fft.end();
     case PluginKind::kRng:
       return factories.rng.find(plugin_id) != factories.rng.end();
+    case PluginKind::kTsr:
+      return factories.tsr.find(plugin_id) != factories.tsr.end();
     default:
       LOG(ERROR) << "Invalid plugin kind specified: "
                  << PluginKindString(plugin_kind);
@@ -247,5 +255,6 @@ EMIT_PLUGIN_SPECIALIZATIONS(BlasFactory, blas, "BLAS");
 EMIT_PLUGIN_SPECIALIZATIONS(DnnFactory, dnn, "DNN");
 EMIT_PLUGIN_SPECIALIZATIONS(FftFactory, fft, "FFT");
 EMIT_PLUGIN_SPECIALIZATIONS(RngFactory, rng, "RNG");
+EMIT_PLUGIN_SPECIALIZATIONS(TsrFactory, tsr, "TSR");
 
 }  // namespace stream_executor

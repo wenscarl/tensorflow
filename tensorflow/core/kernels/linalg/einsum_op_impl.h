@@ -41,7 +41,11 @@ limitations under the License.
 #include "tensorflow/core/lib/math/math_util.h"
 #include "tensorflow/core/platform/types.h"
 #include "tensorflow/core/profiler/lib/traceme.h"
+#include "tensorflow/core/util/env_var.h"
 #include "tensorflow/core/util/einsum_op_util.h"
+#include "third_party/gpus/cuda/include/cutensor.h"
+//#include "tensorflow/core/kernels/linalg/einsum_cutensor.h"
+//#include "/usr/local/cuda/include/cutensor.h"
 
 #if GOOGLE_CUDA || TENSORFLOW_USE_ROCM
 #include "tensorflow/core/kernels/reduction_ops_common_gpu.h"
@@ -586,19 +590,25 @@ struct EinsumHelper {
   }
 };
 
-template <typename Device, typename T>
-class EinsumOp : public OpKernel {
+class EinsumBase : public OpKernel {
  public:
-  explicit EinsumOp(OpKernelConstruction* c) : OpKernel(c) {
-    OP_REQUIRES_OK(c, c->GetAttr("equation", &equation_));
+  explicit EinsumBase(OpKernelConstruction* ctx) : OpKernel(ctx) {
+    OP_REQUIRES_OK(ctx, ctx->GetAttr("equation", &equation_));
     OP_REQUIRES_OK(
-        c, EinsumHelper::ParseEquation(
-               equation_, &input_labels_, &output_labels_, &label_types_,
-               &input_label_counts_, &output_label_counts_,
-               &input_has_ellipsis_, &output_has_ellipsis_));
+        ctx, EinsumHelper::ParseEquation(
+                 equation_, &input_labels_, &output_labels_, &label_types_,
+                 &input_label_counts_, &output_label_counts_,
+                 &input_has_ellipsis_, &output_has_ellipsis_));
   }
 
   void Compute(OpKernelContext* ctx) override {
+    DoEinsum(ctx);
+  }
+  protected:
+  virtual void DoEinsum(OpKernelContext* ctx) = 0;
+
+  template <typename Device, typename T>
+  void ComputeByCompositeFunctors(OpKernelContext* ctx) {
     OpInputList inputs;
     OP_REQUIRES_OK(ctx, ctx->input_list("inputs", &inputs));
 
@@ -727,7 +737,7 @@ class EinsumOp : public OpKernel {
     return profiler::TraceMeEncode(std::move(op), {{"equation", equation}});
   }
 
- private:
+
   string equation_;
   OperandLabels input_labels_;
   Labels output_labels_;
@@ -736,6 +746,118 @@ class EinsumOp : public OpKernel {
   LabelCounts output_label_counts_;
   gtl::InlinedVector<bool, 2> input_has_ellipsis_;
   bool output_has_ellipsis_ = false;
+};
+
+template <typename T>
+class EinsumCpuOp : public EinsumBase {
+  public:
+    using EinsumBase::EinsumBase;
+
+  protected:
+   void DoEinsum(OpKernelContext* ctx) override {
+     ComputeByCompositeFunctors<CPUDevice, T>(ctx);
+   }
+};
+
+
+template <typename T>
+class EinsumGpuOp : public EinsumBase {
+  public:
+    using EinsumBase::EinsumBase;
+  protected:
+
+  void DoEinsum(OpKernelContext* ctx) override {
+    // dispatch broadcasting cases to original einsum GPU kernel
+    if (UseCuTensorEinsum() && !absl::c_linear_search(input_has_ellipsis_, true)
+        && !output_has_ellipsis_) {
+      ComputeByCutensor(ctx);
+    } else {
+      ComputeByCompositeFunctors<GPUDevice, T>(ctx);
+    }
+  }
+
+  void ComputeByCutensor(OpKernelContext* ctx) {
+    OpInputList inputs;
+    OP_REQUIRES_OK(ctx, ctx->input_list("inputs", &inputs));
+    const int num_inputs = inputs.size();
+
+    OP_REQUIRES(
+        ctx, ((num_inputs == 1) || (num_inputs == 2)),
+        errors::InvalidArgument(
+            "Einsum must have at least One or Two input Tensor."));
+
+    const Tensor* input_0_tensor = &inputs[0];
+    const Tensor* input_1_tensor;
+
+    if (num_inputs == 2) {
+      input_1_tensor = &inputs[1];
+    }
+
+    std::vector<int> input_0_shape, input_1_shape;
+
+    std::vector<int64> output_dims;
+    T alpha = (T)1.0f;
+    T beta = (T)0.0f;
+    size_t worksize = 0;
+
+    for (int i = 0; i < input_0_tensor->dims(); i++) {
+        input_0_shape.push_back(input_0_tensor->dim_size(i));
+    }
+
+    if (num_inputs == 2) {
+      for (int i = 0; i < input_1_tensor->dims(); i++) {
+          input_1_shape.push_back(input_1_tensor->dim_size(i));
+      }
+    }
+
+    auto* stream = ctx->op_device_context()->stream();
+    se::tsr::TsrTypeHelper::TsrTypeAlias compute_type =
+        se::tsr::TsrTypeHelper::TsrInitType<T>();
+
+    OP_REQUIRES(ctx, compute_type,
+                errors::Internal("Invalid TsrTypeHelper::TsrTypeAlias."));
+
+    OP_REQUIRES_OK(ctx, stream->parent()->AsTsr()->InitializeModes(
+                            stream, output_dims,
+                            compute_type,
+                            equation_, input_0_shape, input_1_shape));
+
+    Tensor* output_tensor = NULL;
+    TensorShape output_shape = TensorShape(output_dims);
+    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, output_shape, &output_tensor));
+
+    OP_REQUIRES(ctx,
+                stream->parent()->AsTsr()->EstimateWorkSpace(
+                    stream, worksize, input_0_tensor->flat<T>().data(),
+                    num_inputs == 1 ? nullptr :
+                    input_1_tensor->flat<T>().data(),
+                    output_tensor->flat<T>().data()),
+                    errors::Internal("Estimate Workspace failed!"));
+
+    Tensor work_tensor;
+    int64 work_tensor_size = worksize / sizeof(float);
+    TensorShape work_shape = { work_tensor_size };
+    OP_REQUIRES_OK(ctx, ctx->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
+
+    OP_REQUIRES(
+        ctx, stream->ThenTsrContraction(
+                 input_0_tensor->flat<T>().data(),
+                 num_inputs == 1 ? nullptr : input_1_tensor->flat<T>().data(),
+                 output_tensor->flat<T>().data(),
+                 work_tensor.flat<float>().data()).ok(),
+        errors::Internal("Compute by CuTensor failed!"));
+  }
+
+  bool UseCuTensorEinsum() {
+  static bool acquire_cutensor_availability = [] {
+    bool compute_with_cutensor = false;
+    TF_CHECK_OK(ReadBoolFromEnvVar("TF_CUTENSOR_EINSUM",
+                                   /*default_val=*/false,
+                                   &compute_with_cutensor));
+    return compute_with_cutensor;
+  }();
+  return acquire_cutensor_availability;
+  }
 };
 
 #if GOOGLE_CUDA || TENSORFLOW_USE_ROCM
@@ -773,6 +895,7 @@ DECLARE_GPU_SPECS(complex128);
 #endif
 #undef DECLARE_GPU_SPEC
 #undef DECLARE_GPU_SPECS
+
 }  // namespace functor
 #endif  // GOOGLE_CUDA || TENSORFLOW_USE_ROCM
 

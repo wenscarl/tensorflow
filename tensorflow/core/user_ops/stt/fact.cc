@@ -41,4 +41,3 @@ class FactOp : public tensorflow::OpKernel {
 };
 
 REGISTER_KERNEL_BUILDER(Name("Fact").Device(tensorflow::DEVICE_CPU), FactOp);
-
