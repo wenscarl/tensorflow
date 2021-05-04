@@ -45,6 +45,7 @@ exports_files([
     "einsum_op_impl_complex64.cc",
     "einsum_op_impl_complex128.cc",
     "einsum_op_impl.h",
+    "einsum_cutensor.h",
     "einsum_op.h",
     "linalg_ops_common.h",
     "linalg_ops_common.cc",
@@ -289,6 +290,8 @@ tf_kernel_library(
         "//third_party/eigen3",
         "@com_google_absl//absl/container:flat_hash_map",
         "@com_google_absl//absl/strings",
+ #       "@local_config_cuda//cuda:cuda_headers",
+        "//tensorflow/stream_executor/cuda:cutensor_lib",
     ],
 )
 

@@ -27,6 +27,7 @@ port::Status TryDlopenCUDALibraries() {
   auto cublaslt_status = CachedLoader::GetCublasLtDsoHandle();
   auto cufft_status = CachedLoader::GetCufftDsoHandle();
   auto curand_status = CachedLoader::GetCurandDsoHandle();
+  auto cutensor_status = CachedLoader::GetCutensorDsoHandle();
   auto cusolver_status = CachedLoader::GetCusolverDsoHandle();
   auto cusparse_status = CachedLoader::GetCusparseDsoHandle();
   auto cudnn_status = CachedLoader::GetCudnnDsoHandle();
@@ -34,7 +35,8 @@ port::Status TryDlopenCUDALibraries() {
   if (!cudart_status.status().ok() || !cublas_status.status().ok() ||
       !cufft_status.status().ok() || !curand_status.status().ok() ||
       !cusolver_status.status().ok() || !cusparse_status.status().ok() ||
-      !cudnn_status.status().ok() || !cublaslt_status.status().ok()) {
+      !cudnn_status.status().ok() || !cublaslt_status.status().ok() ||
+      !cutensor_status.status().ok()) {
     return port::Status(port::error::INTERNAL,
                         absl::StrCat("Cannot dlopen all CUDA libraries."));
   } else {

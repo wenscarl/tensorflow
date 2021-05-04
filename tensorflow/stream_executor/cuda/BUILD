@@ -463,6 +463,29 @@ cc_library(
 )
 
 cc_library(
+    name = "cutensor_stub",
+    srcs = if_cuda_is_configured(["cutensor_stub.cc"]),
+    textual_hdrs = ["cutensor_1_2.inc"],
+    deps = if_cuda_is_configured([
+        "@local_config_cuda//cuda:cuda_headers",
+        # LINT.IfChange
+        "@local_config_cuda//cuda:cutensor_headers",
+        # LINT.ThenChange(//tensorflow/copy.bara.sky:cublas_headers)
+        "//tensorflow/stream_executor/lib",
+        "//tensorflow/stream_executor/platform:dso_loader",
+    ]),
+)
+
+alias(
+    name = "cutensor_lib",
+    actual = select({
+        "//tensorflow:oss": ":cutensor_stub",
+        "//conditions:default": "@local_config_cuda//cuda:cutensor",
+    }),
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "cupti_stub",
     srcs = if_cuda_is_configured(["cupti_stub.cc"]),
     data = if_cuda_is_configured(["@local_config_cuda//cuda:cupti_dsos"]),

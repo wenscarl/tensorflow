@@ -22,15 +22,15 @@ from parameterized import param
 import numpy as np
 
 import tensorflow as tf
-from tensorflow.python.ops import gen_linalg_ops
 from tensorflow.python.platform import test
+import tensorflow.test
 
 
-#tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 
-class EinsumcuTENSORTest(test.TestCase):
+class EinsumcuTENSORTest(tensorflow.test.TestCase):
 
     # Assert TF test methods:
     # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/framework/test_util.py#L2474
@@ -43,61 +43,60 @@ class EinsumcuTENSORTest(test.TestCase):
                 a_size=(50, 50),
                 b_size=(50, 50),
                 equation="ik,kj->ij",
-                dtype=np.float32,
+                dtype=tf.float32,
             ),
             param(
                 "test 1",
                 a_size=(50, 50, 50),
                 b_size=(50, 50, 50),
                 equation="lik,lkj->lij",
-                dtype=np.float32,
+                dtype=tf.float32,
             ),
             param(
                 "test 2",
                 a_size=(50, 50, 50, 20),
                 b_size=(50, 50, 50, 20),
                 equation="likm,lkjm->lij",
-                dtype=np.float32,
+                dtype=tf.float32,
             ),
             param(
                 "test 3",
                 a_size=(20, 50, 50, 50),
                 b_size=(50, 50, 50, 20),
                 equation="mlik,lkjm->lij",
-                dtype=np.float32,
+                dtype=tf.float32,
             ),
-#            param(
-#                "test 4",
-#                a_size=(50, 50),
-#                b_size=(50, 50),
-#                equation="ik,kj->ij",
-#                dtype=tf.float16,
-#            ),
-#            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=tf.float16),
-#            param(
-#                "test 6",
-#                a_size=(50, 50, 50, 20),
-#                b_size=(50, 50, 50, 20),
-#                equation="likm,lkjm->lij",
-#                dtype=tf.float16,
-#            ),
-#            param(
-#                "test 7",
-#                a_size=(20, 50, 50, 50),
-#                b_size=(50, 50, 50, 20),
-#                equation="mlik,lkjm->lij",
-#                dtype=tf.float16,
-#            ),
+            param(
+                "test 4",
+                a_size=(50, 50),
+                b_size=(50, 50),
+                equation="ik,kj->ij",
+                dtype=tf.float16,
+            ),
+            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=tf.float16),
+            param(
+                "test 6",
+                a_size=(50, 50, 50, 20),
+                b_size=(50, 50, 50, 20),
+                equation="likm,lkjm->lij",
+                dtype=tf.float16,
+            ),
+            param(
+                "test 7",
+                a_size=(20, 50, 50, 50),
+                b_size=(50, 50, 50, 20),
+                equation="mlik,lkjm->lij",
+                dtype=tf.float16,
+            ),
         ]
         # yapf: enable
     )
-    def test_einsum_equivalent_results(self, _, a_size, b_size, equation, dtype=np.float32):
-   #     A = tf.compat.v1.get_variable("A", shape=a_size, initializer=tf.random_normal_initializer, dtype=dtype)
-        A = np.random.random(size=a_size).astype(dtype)
-  #      B = tf.compat.v1.get_variable("B", shape=b_size, initializer=tf.random_normal_initializer, dtype=dtype)
-        B = np.random.random(size=b_size).astype(dtype)
+    def test_einsum_equivalent_results(self, _, a_size, b_size, equation, dtype=tf.float32):
+        A = tf.compat.v1.get_variable("A", shape=a_size, initializer=tf.random_normal_initializer, dtype=dtype)
 
-        tf_native_rslt = gen_linalg_ops.einsum([A,B],equation)
+        B = tf.compat.v1.get_variable("B", shape=b_size, initializer=tf.random_normal_initializer, dtype=dtype)
+
+        tf_native_rslt = tf.einsum(equation, A, B, name="tf_native_einsum")
 #        tf_native_grads = tf.gradients(tf_native_rslt, [A, B])
 
         tf_cutensor_rslt = np.einsum(equation, A, B)

@@ -24,6 +24,8 @@ namespace tensorflow {
 Status ParseEinsumEquation(const string& equation,
                            gtl::InlinedVector<string, 2>* input_subscripts,
                            string* output_subscript);
+
 }  // namespace tensorflow
+
 
 #endif  // TENSORFLOW_CORE_UTIL_EINSUM_OP_UTIL_H_
