@@ -63,26 +63,26 @@ struct EinsumCutensorFunctor<GPUDevice, T> {
 
     auto output_dims = myEinsum.getOutputShape();
     // Create an output tensor
-    Tensor* output_tensor = NULL;
-    TensorShape output_shape = TensorShape(output_dims);
-    //OP_REQUIRES_OK(context, context->allocate_output(0, output_shape, &output_tensor));
-    context->allocate_output(0, output_shape, &output_tensor);
+ //   Tensor* output_tensor = NULL;
+ //   TensorShape output_shape = TensorShape(output_dims);
+ //   //OP_REQUIRES_OK(context, context->allocate_output(0, output_shape, &output_tensor));
+ //   context->allocate_output(0, output_shape, &output_tensor);
 
-    size_t worksize = myEinsum.getWorksize();
-    Tensor work_tensor;
-    int64 work_tensor_size = worksize / sizeof(float);
-    TensorShape work_shape = { work_tensor_size };
-    //OP_REQUIRES_OK(context, context->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
-    context->allocate_temp(DT_FLOAT, work_shape, &work_tensor);
+ //   size_t worksize = myEinsum.getWorksize();
+ //   Tensor work_tensor;
+ //   int64 work_tensor_size = worksize / sizeof(float);
+ //   TensorShape work_shape = { work_tensor_size };
+ //   //OP_REQUIRES_OK(context, context->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
+ //   context->allocate_temp(DT_FLOAT, work_shape, &work_tensor);
 
-    const GPUDevice& device = context->eigen_device<GPUDevice>();
-    
-    auto ret = myEinsum.execute(GetCuTensorHandle(),
-                                  input_0_tensor.flat<T>().data(),
-                                  input_1_tensor.flat<T>().data(),
-                                  output_tensor->flat<T>().data(),
-                                  work_tensor.flat<float>().data(),
-                                  device.stream());
+ //   const GPUDevice& device = context->eigen_device<GPUDevice>();
+ //   
+ //   auto ret = myEinsum.execute(GetCuTensorHandle(),
+ //                                 input_0_tensor.flat<T>().data(),
+ //                                 input_1_tensor.flat<T>().data(),
+ //                                 output_tensor->flat<T>().data(),
+ //                                 work_tensor.flat<float>().data(),
+ //                                 device.stream());
  //     OP_REQUIRES(context, ret, errors::Internal("cutensor_python: Launch failed."));
 
 

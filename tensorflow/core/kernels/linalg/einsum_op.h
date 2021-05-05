@@ -77,176 +77,176 @@ struct Einsum
         numModesC_(0),
         isInitialized_(false)
     {
-//        const auto arrow_pos = equation.find("->");
-//        const auto comma_pos = equation.find(",");
-//        const auto dots = equation.find("...");
-//        const bool isBroadcast = (dots != std::string::npos);
-//        const bool isImplicit = (arrow_pos == std::string::npos);
-//        if (isBroadcast) // TODO
-//        {
-//            return;
-//        }
-//        const bool usesB = (comma_pos != std::string::npos);
-//        if (! usesB)
-//        {
-//            numModesB_ = 0;
-//        }
-//
-//        size_t a_start = 0;
-//        size_t a_end = isImplicit ? ((comma_pos == std::string::npos) ? equation.size() : comma_pos) : 
-//                                    ((comma_pos == std::string::npos) ? arrow_pos : comma_pos);
-//        size_t b_start = usesB ? comma_pos + 1 : 0;
-//        size_t b_end   = usesB ? (isImplicit ? equation.size() : arrow_pos) : 0;
-//        size_t c_start = isImplicit ? equation.size() : arrow_pos + 2;
-//        size_t c_end = equation.size();
-//
-//
-//        char modeA[kMaxNumModes_ + 2];
-//        uint32_t numModesA = 0;
-//        for (int i = a_start; i < a_end && numModesA < kMaxNumModes_ + 2; ++i){
-//            if (equation.at(i) != ' ') // skip spaces
-//            {
-//                modeA[numModesA++] = equation.at(i);
-//            }
-//        }
-//
-//        char modeB[kMaxNumModes_ + 2];
-//        uint32_t numModesB = 0;
-//        for (int i = b_start; i < b_end && numModesB < kMaxNumModes_ + 2; ++i){
-//            if (equation.at(i) != ' ') // skip spaces
-//            {
-//                modeB[numModesB++] = equation.at(i);
-//            }
-//        }
-//
-//        char modeC[kMaxNumModes_ + 2];
-//        uint32_t numModesC = 0;
-//        for (int i = c_start; i < c_end && numModesC < kMaxNumModes_ + 2; ++i){
-//            if (equation.at(i) != ' ') // skip spaces
-//            {
-//                modeC[numModesC++] = equation.at(i);
-//            }
-//        }
-//
-//        if ((numModesA != numModesA_) || (numModesB != numModesB_))
-//        {
-//            // substring size and shape don't match
-//            return;
-//        }
-//        if (numModesA_ > kMaxNumModes_ || numModesB_ > kMaxNumModes_)
-//        {
-//            // too many modes
-//            return;
-//        }
-//
-//        /**
-//         * Copy all modes from modeA to modeC if they don't appear in modeB
-//         */
-//        auto copyModesIf = [](const char* modeA, uint32_t numModesA,
-//                const char* modeB, uint32_t numModesB,
-//                char* modeC, uint32_t &numModesC)
-//        {
-//            for (uint32_t i = 0; i < numModesA; i++)
-//            {
-//                auto mode = modeA[i];
-//                bool found = false;
-//                for(uint32_t j=0; j < numModesB; ++j){
-//                    if(mode == modeB[j])
-//                    {
-//                        found = true;
-//                        break;
-//                    }
-//                }
-//
-//                if (!found) // is non-contracted mode
-//                {
-//                    modeC[numModesC++] = mode;
-//                    if (numModesC > kMaxNumModes_)
-//                    {
-//                        // too many modes
-//                        return false;
-//                    }
-//                }
-//            }
-//            return true;
-//        };
-//
-//
-//        std::array<char, kMaxNumModes_+1> implicitModeC;
-//        char* redirectModeC;
-//        if (isImplicit)
-//        {
-//            // we have to copy all non-contracted modes from A over to C
-//            if (copyModesIf(modeA, numModesA_, modeB, numModesB_, implicitModeC.data(), numModesC_) == false)
-//            {
-//                return;
-//            }
-//            // we have to copy all non-contracted modes from B over to C
-//            if (copyModesIf(modeB, numModesB_, modeA, numModesA_, implicitModeC.data(), numModesC_) == false)
-//            {
-//                return;
-//            }
-//            std::sort(implicitModeC.begin(), std::next(implicitModeC.begin(), numModesC_)); // modes are sorted w.r.t. lexical order
-//            implicitModeC[numModesC_] = '\0';
-//            redirectModeC = implicitModeC.data();
-//        }
-//        else
-//        {
-//            redirectModeC = modeC;
-//            numModesC_ = numModesC;
-//        }
-//
-//        for (uint32_t i = 0; i < numModesA_; i++)
-//        {
-//            modesA_[i] = modeA[numModesA_ - i - 1];
-//            extentA_[i] = A_shape[numModesA_ - i - 1];
-//        }
-//
-//        for (uint32_t i = 0; i < numModesB_; i++)
-//        {
-//            modesB_[i] = modeB[numModesB_ - i - 1];
-//            extentB_[i] = B_shape[numModesB_ - i - 1];
-//        }
-//
-//        for (uint32_t i = 0; i < numModesC_; i++)
-//        {
-//            const auto mode = redirectModeC[numModesC_ - i - 1];
-//            modesC_[i] = mode;
-//            bool found = false;
-//            for (uint32_t j=0; j < numModesA_; ++j)
-//            {
-//                if (modesA_[j] == mode)
-//                {
-//                    extentC_[i] = extentA_[j];
-//                    found = true;
-//                    break;
-//                }
-//            }
-//            for (uint32_t j=0; !found && j < numModesB_; ++j)
-//            {
-//                if (modesB_[j] == mode)
-//                {
-//                    extentC_[i] = extentB_[j];
-//                    break;
-//                }
-//            }
-//        }
-//
-//        isInitialized_ = true;
+        const auto arrow_pos = equation.find("->");
+        const auto comma_pos = equation.find(",");
+        const auto dots = equation.find("...");
+        const bool isBroadcast = (dots != std::string::npos);
+        const bool isImplicit = (arrow_pos == std::string::npos);
+        if (isBroadcast) // TODO
+        {
+            return;
+        }
+        const bool usesB = (comma_pos != std::string::npos);
+        if (! usesB)
+        {
+            numModesB_ = 0;
+        }
+
+        size_t a_start = 0;
+        size_t a_end = isImplicit ? ((comma_pos == std::string::npos) ? equation.size() : comma_pos) : 
+                                    ((comma_pos == std::string::npos) ? arrow_pos : comma_pos);
+        size_t b_start = usesB ? comma_pos + 1 : 0;
+        size_t b_end   = usesB ? (isImplicit ? equation.size() : arrow_pos) : 0;
+        size_t c_start = isImplicit ? equation.size() : arrow_pos + 2;
+        size_t c_end = equation.size();
+
+
+        char modeA[kMaxNumModes_ + 2];
+        uint32_t numModesA = 0;
+        for (int i = a_start; i < a_end && numModesA < kMaxNumModes_ + 2; ++i){
+            if (equation.at(i) != ' ') // skip spaces
+            {
+                modeA[numModesA++] = equation.at(i);
+            }
+        }
+
+        char modeB[kMaxNumModes_ + 2];
+        uint32_t numModesB = 0;
+        for (int i = b_start; i < b_end && numModesB < kMaxNumModes_ + 2; ++i){
+            if (equation.at(i) != ' ') // skip spaces
+            {
+                modeB[numModesB++] = equation.at(i);
+            }
+        }
+
+        char modeC[kMaxNumModes_ + 2];
+        uint32_t numModesC = 0;
+        for (int i = c_start; i < c_end && numModesC < kMaxNumModes_ + 2; ++i){
+            if (equation.at(i) != ' ') // skip spaces
+            {
+                modeC[numModesC++] = equation.at(i);
+            }
+        }
+
+        if ((numModesA != numModesA_) || (numModesB != numModesB_))
+        {
+            // substring size and shape don't match
+            return;
+        }
+        if (numModesA_ > kMaxNumModes_ || numModesB_ > kMaxNumModes_)
+        {
+            // too many modes
+            return;
+        }
+
+        /**
+         * Copy all modes from modeA to modeC if they don't appear in modeB
+         */
+        auto copyModesIf = [](const char* modeA, uint32_t numModesA,
+                const char* modeB, uint32_t numModesB,
+                char* modeC, uint32_t &numModesC)
+        {
+            for (uint32_t i = 0; i < numModesA; i++)
+            {
+                auto mode = modeA[i];
+                bool found = false;
+                for(uint32_t j=0; j < numModesB; ++j){
+                    if(mode == modeB[j])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) // is non-contracted mode
+                {
+                    modeC[numModesC++] = mode;
+                    if (numModesC > kMaxNumModes_)
+                    {
+                        // too many modes
+                        return false;
+                    }
+                }
+            }
+            return true;
+        };
+
+
+        std::array<char, kMaxNumModes_+1> implicitModeC;
+        char* redirectModeC;
+        if (isImplicit)
+        {
+            // we have to copy all non-contracted modes from A over to C
+            if (copyModesIf(modeA, numModesA_, modeB, numModesB_, implicitModeC.data(), numModesC_) == false)
+            {
+                return;
+            }
+            // we have to copy all non-contracted modes from B over to C
+            if (copyModesIf(modeB, numModesB_, modeA, numModesA_, implicitModeC.data(), numModesC_) == false)
+            {
+                return;
+            }
+            std::sort(implicitModeC.begin(), std::next(implicitModeC.begin(), numModesC_)); // modes are sorted w.r.t. lexical order
+            implicitModeC[numModesC_] = '\0';
+            redirectModeC = implicitModeC.data();
+        }
+        else
+        {
+            redirectModeC = modeC;
+            numModesC_ = numModesC;
+        }
+
+        for (uint32_t i = 0; i < numModesA_; i++)
+        {
+            modesA_[i] = modeA[numModesA_ - i - 1];
+            extentA_[i] = A_shape[numModesA_ - i - 1];
+        }
+
+        for (uint32_t i = 0; i < numModesB_; i++)
+        {
+            modesB_[i] = modeB[numModesB_ - i - 1];
+            extentB_[i] = B_shape[numModesB_ - i - 1];
+        }
+
+        for (uint32_t i = 0; i < numModesC_; i++)
+        {
+            const auto mode = redirectModeC[numModesC_ - i - 1];
+            modesC_[i] = mode;
+            bool found = false;
+            for (uint32_t j=0; j < numModesA_; ++j)
+            {
+                if (modesA_[j] == mode)
+                {
+                    extentC_[i] = extentA_[j];
+                    found = true;
+                    break;
+                }
+            }
+            for (uint32_t j=0; !found && j < numModesB_; ++j)
+            {
+                if (modesB_[j] == mode)
+                {
+                    extentC_[i] = extentB_[j];
+                    break;
+                }
+            }
+        }
+
+        isInitialized_ = true;
     }
 
     size_t getWorksize() const { return kWorksize_; }
 
     std::vector<IntType> getOutputShape() const
     {
-//        if (!isInitialized_) return {};
-//        std::vector<IntType> extentC(numModesC_);
-//        for (int i=0; i < numModesC_; ++i)
-//        {
-//            extentC[i] = extentC_.at(numModesC_ - i - 1);
-//        }
-//
-//        return extentC;
+        if (!isInitialized_) return {};
+        std::vector<IntType> extentC(numModesC_);
+        for (int i=0; i < numModesC_; ++i)
+        {
+            extentC[i] = extentC_.at(numModesC_ - i - 1);
+        }
+
+        return extentC;
     }
 
     /**
