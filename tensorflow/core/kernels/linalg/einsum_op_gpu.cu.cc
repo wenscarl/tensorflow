@@ -45,23 +45,16 @@ inline cutensorHandle_t* GetCuTensorHandle() {
 template <typename T>
 struct EinsumCutensorFunctor<GPUDevice, T> {
   static EIGEN_ALWAYS_INLINE Status
-   Compute(OpKernelContext* context, string equation_) {
+   Compute(OpKernelContext* context, const T* input0, const T* input1, T* out, float* works, string equation_,std::vector<int64> input_0_shape, std::vector<int64> input_1_shape) {
     // Grab the input tensor
-    const Tensor& input_0_tensor = context->input(0);
-    const Tensor& input_1_tensor = context->input(1);
 
-    std::vector<int64> input_0_shape, input_1_shape;
-    for (int i = 0; i < input_0_tensor.dims(); i++)
-        input_0_shape.push_back(input_0_tensor.dim_size(i));
-    for (int i = 0; i < input_1_tensor.dims(); i++)
-        input_1_shape.push_back(input_1_tensor.dim_size(i));
 
     constexpr int kMaxNumModes_ = 12; // maximal number of modes supported by cuTENSOR
-    Einsum<T, int64, kMaxNumModes_> myEinsum(equation_, input_0_shape, input_1_shape);
+ //   Einsum<T, int64, kMaxNumModes_> myEinsum(equation_, input_0_shape, input_1_shape);
     //OP_REQUIRES(context, myEinsum.isInitialized(), errors::Internal("cutensor_python: Initialization failed."));
-    myEinsum.isInitialized();
+  //  myEinsum.isInitialized();
 
-    auto output_dims = myEinsum.getOutputShape();
+ //   auto output_dims = myEinsum.getOutputShape();
     // Create an output tensor
  //   Tensor* output_tensor = NULL;
  //   TensorShape output_shape = TensorShape(output_dims);
@@ -75,14 +68,14 @@ struct EinsumCutensorFunctor<GPUDevice, T> {
  //   //OP_REQUIRES_OK(context, context->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
  //   context->allocate_temp(DT_FLOAT, work_shape, &work_tensor);
 
- //   const GPUDevice& device = context->eigen_device<GPUDevice>();
+    const GPUDevice& device = context->eigen_device<GPUDevice>();
  //   
- //   auto ret = myEinsum.execute(GetCuTensorHandle(),
- //                                 input_0_tensor.flat<T>().data(),
- //                                 input_1_tensor.flat<T>().data(),
- //                                 output_tensor->flat<T>().data(),
- //                                 work_tensor.flat<float>().data(),
- //                                 device.stream());
+//    auto ret = myEinsum.execute(GetCuTensorHandle(),
+//                                  input0,
+//                                  input1,
+//                                  out,
+//                                  works,
+//                                  device.stream());
  //     OP_REQUIRES(context, ret, errors::Internal("cutensor_python: Launch failed."));
 
 

@@ -20,7 +20,7 @@ namespace tensorflow {
 #define REGISTER_EINSUM(D, TYPE)                                   \
   REGISTER_KERNEL_BUILDER(                                         \
       Name("Einsum").Device(DEVICE_##D).TypeConstraint<TYPE>("T"), \
-      EinsumOp<D##Device, TYPE>);
+      EinsumCpuOp<D##Device, TYPE>);
 
 #define REGISTER_CPU(TYPE) REGISTER_EINSUM(CPU, TYPE)
 TF_CALL_int64(REGISTER_CPU);
