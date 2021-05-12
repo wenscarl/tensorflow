@@ -22,9 +22,12 @@ from parameterized import param
 import numpy as np
 
 import tensorflow as tf
-from tensorflow.python.ops import gen_linalg_ops
 from tensorflow.python.platform import test
+from tensorflow.python.ops import gen_linalg_ops
+from tensorflow.python.framework.ops import device
 
+from tensorflow.python.ops import variable_scope
+from tensorflow.python.ops import init_ops_v2
 
 #tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
@@ -38,27 +41,27 @@ class EinsumcuTENSORTest(test.TestCase):
     @parameterized.expand(
         # yapf: disable
         [
-#            param(
-#                "test 0",
-#                a_size=(50, 50),
-#                b_size=(50, 50),
-#                equation="ik,kj->ij",
-#                dtype=np.float32,
-#            ),
-#            param(
-#                "test 1",
-#                a_size=(50, 50, 50),
-#                b_size=(50, 50, 50),
-#                equation="lik,lkj->lij",
-#                dtype=np.float32,
-#            ),
-#            param(
-#                "test 2",
-#                a_size=(50, 50, 50, 20),
-#                b_size=(50, 50, 50, 20),
-#                equation="likm,lkjm->lij",
-#                dtype=np.float32,
-#            ),
+            param(
+                "test 0",
+                a_size=(50, 50),
+                b_size=(50, 50),
+                equation="ik,kj->ij",
+                dtype=np.float32,
+            ),
+            param(
+                "test 1",
+                a_size=(50, 50, 50),
+                b_size=(50, 50, 50),
+                equation="lik,lkj->lij",
+                dtype=np.float32,
+            ),
+            param(
+                "test 2",
+                a_size=(50, 50, 50, 20),
+                b_size=(50, 50, 50, 20),
+                equation="likm,lkjm->lij",
+                dtype=np.float32,
+            ),
             param(
                 "test 3",
                 a_size=(20, 50, 50, 50),
@@ -66,49 +69,51 @@ class EinsumcuTENSORTest(test.TestCase):
                 equation="mlik,lkjm->lij",
                 dtype=np.float32,
             ),
-#            param(
-#                "test 4",
-#                a_size=(50, 50),
-#                b_size=(50, 50),
-#                equation="ik,kj->ij",
-#                dtype=tf.float16,
-#            ),
-#            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=tf.float16),
-#            param(
-#                "test 6",
-#                a_size=(50, 50, 50, 20),
-#                b_size=(50, 50, 50, 20),
-#                equation="likm,lkjm->lij",
-#                dtype=tf.float16,
-#            ),
-#            param(
-#                "test 7",
-#                a_size=(20, 50, 50, 50),
-#                b_size=(50, 50, 50, 20),
-#                equation="mlik,lkjm->lij",
-#                dtype=tf.float16,
-#            ),
+            param(
+                "test 4",
+                a_size=(50, 50),
+                b_size=(50, 50),
+                equation="ik,kj->ij",
+                dtype=np.float16,
+            ),
+            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=np.float16),
+            param(
+                "test 6",
+                a_size=(50, 50, 50, 20),
+                b_size=(50, 50, 50, 20),
+                equation="likm,lkjm->lij",
+                dtype=np.float16,
+            ),
+            param(
+                "test 7",
+                a_size=(20, 50, 50, 50),
+                b_size=(50, 50, 50, 20),
+                equation="mlik,lkjm->lij",
+                dtype=np.float16,
+            ),
         ]
         # yapf: enable
     )
     def test_einsum_equivalent_results(self, _, a_size, b_size, equation, dtype=np.float32):
-   #     A = tf.compat.v1.get_variable("A", shape=a_size, initializer=tf.random_normal_initializer, dtype=dtype)
-        A = np.random.random(size=a_size).astype(dtype)
-  #      B = tf.compat.v1.get_variable("B", shape=b_size, initializer=tf.random_normal_initializer, dtype=dtype)
-        B = np.random.random(size=b_size).astype(dtype)
+    #    A = variable_scope.get_variable("A", shape=a_size, initializer=init_ops_v2.random_normal_initializer, dtype=dtype)
 
-        tf_native_rslt = gen_linalg_ops.einsum([A,B],equation)
-#        tf_native_grads = tf.gradients(tf_native_rslt, [A, B])
+   #     B = variable_scope.get_variable("B", shape=b_size, initializer=init_ops_v2.random_normal_initializer, dtype=dtype)
 
-        tf_cutensor_rslt = np.einsum(equation, A, B)
-#        tf_cutensor_grads = tf.gradients(tf_cutensor_rslt, [A, B])
-
-        self.assertEqual(tf_native_rslt.get_shape(), tf_cutensor_rslt.shape)
-        print("native:", tf_native_rslt)
-        print("np:", tf_cutensor_rslt)
-        self.assertEqual(tf_native_rslt.dtype, tf_cutensor_rslt.dtype)
-#        self.assertEqual(1.0,2.0)
-     #   self.assertAllClose(tf_native_rslt, tf_cutensor_rslt, rtol=5e-03, atol=5e-03)
+        #with self.session(use_gpu=False):
+        with device('/GPU:0'):
+           A = np.random.random(size=a_size)
+           B = np.random.random(size=b_size)
+           #tf_native_rslt = tf.einsum(equation, A, B, name="tf_native_einsum")
+           tf_native_rslt = gen_linalg_ops.einsum([A, B], equation)
+   #        tf_native_grads = tf.gradients(tf_native_rslt, [A, B])
+   
+           tf_cutensor_rslt = np.einsum(equation, A, B)
+   #        tf_cutensor_grads = tf.gradients(tf_cutensor_rslt, [A, B])
+   
+           self.assertEqual(tf_native_rslt.get_shape(), tf_cutensor_rslt.shape)
+   
+           self.assertEqual(tf_native_rslt.dtype, tf_cutensor_rslt.dtype)
+           self.assertAllClose(tf_native_rslt, tf_cutensor_rslt, rtol=5e-03, atol=5e-03)
      #   self.assertEqual(len(tf_cutensor_grads), len(tf_native_grads))
 
 #        with self.session(use_gpu=True) as sess:
@@ -121,27 +126,7 @@ class EinsumcuTENSORTest(test.TestCase):
 #            for tf_native_grad, tf_cutensor_grad in zip(tf_native_grads, tf_cutensor_grads):
 #                self.assertAllClose(tf_native_grad, tf_cutensor_grad, rtol=5e-03, atol=5e-03)
 #                self.assertEqual(tf_native_grad.dtype, tf_cutensor_grad.dtype)
-    
-    def test_einsum_equivalent_results2(self,  dtype=np.float32):
-        a_size = (50,50)
-        b_size = (50,50)
-        equation="ij,jk->ij"
-   #     A = tf.compat.v1.get_variable("A", shape=a_size, initializer=tf.random_normal_initializer, dtype=dtype)
-        A = np.random.random(size=a_size).astype(dtype)
-  #      B = tf.compat.v1.get_variable("B", shape=b_size, initializer=tf.random_normal_initializer, dtype=dtype)
-        B = np.random.random(size=b_size).astype(dtype)
 
-        tf_native_rslt = gen_linalg_ops.einsum([A,B],equation)
-#        tf_native_grads = tf.gradients(tf_native_rslt, [A, B])
-
-        tf_cutensor_rslt = np.einsum(equation, A, B)
-#        tf_cutensor_grads = tf.gradients(tf_cutensor_rslt, [A, B])
-
-        self.assertEqual(tf_native_rslt.get_shape(), tf_cutensor_rslt.shape)
-
-        self.assertEqual(tf_native_rslt.dtype, tf_cutensor_rslt.dtype)
-        self.assertAllClose(tf_native_rslt, tf_cutensor_rslt, rtol=5e-03, atol=5e-03)
-     
 
 if __name__ == '__main__':
     test.main()

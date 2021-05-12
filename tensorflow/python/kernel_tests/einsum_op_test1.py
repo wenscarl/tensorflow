@@ -23,6 +23,7 @@ import numpy as np
 
 import tensorflow as tf
 from tensorflow.python.platform import test
+from tensorflow.python.ops import gen_linalg_ops
 import tensorflow.test
 
 
@@ -96,7 +97,8 @@ class EinsumcuTENSORTest(tensorflow.test.TestCase):
 
         B = tf.compat.v1.get_variable("B", shape=b_size, initializer=tf.random_normal_initializer, dtype=dtype)
 
-        tf_native_rslt = tf.einsum(equation, A, B, name="tf_native_einsum")
+        #tf_native_rslt = tf.einsum(equation, A, B, name="tf_native_einsum")
+        tf_native_rslt = gen_linalg_ops.einsum([A, B], equation)
 #        tf_native_grads = tf.gradients(tf_native_rslt, [A, B])
 
         tf_cutensor_rslt = np.einsum(equation, A, B)

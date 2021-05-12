@@ -102,7 +102,10 @@ class EinsumGpuOp : public OpKernel {
         input_1_shape.push_back(input_1_tensor.dim_size(i));
     Einsum<T,int64,12> myEinsum(equation_, input_0_shape, input_1_shape);
 
-    myEinsum.isInitialized();
+    for (auto k : input_0_shape) {
+	    printf("ffffffffff: %d\n", k);
+    }
+    OP_REQUIRES(ctx, myEinsum.isInitialized(), errors::Internal("cutensor_python: Initialization failed."));
 
     auto output_dims = myEinsum.getOutputShape();
     Tensor* output_tensor = NULL;
@@ -128,7 +131,7 @@ class EinsumGpuOp : public OpKernel {
                                 output_tensor->flat<T>().data(),
                                 work_tensor.flat<float>().data(),
                                 device.stream());
-cutensorHandleDetachPlanCachelines(&handle);
+    cutensorHandleDetachPlanCachelines(&handle);
   //  Status fuc_stat = functor::EinsumCutensorFunctor<Device, T>::Compute(ctx,
 //		     input_0_tensor.flat<T>().data(),input_1_tensor.flat<T>().data(), output_tensor->flat<T>().data(), work_tensor.flat<float>().data(), equation_, {50,50},{50,50} );
 //  
@@ -143,7 +146,7 @@ cutensorHandleDetachPlanCachelines(&handle);
 //      OP_REQUIRES(context, ret, errors::Internal("cutensor_python: Launch failed."));
 //    }
 
-  //  OP_REQUIRES(context, ret, errors::Internal("cutensor_python: Launch failed."));
+    OP_REQUIRES(ctx, ret, errors::Internal("cutensor_python: Launch failed."));
   }
 };
 

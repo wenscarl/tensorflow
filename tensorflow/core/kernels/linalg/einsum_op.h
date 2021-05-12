@@ -262,7 +262,7 @@ struct Einsum
                  const void* A_raw,
                  const void* B_raw,
                  void* C_raw,
-                 void *work_raw, cudaStream_t stream) const
+		 void *work_raw, cudaStream_t stream) 
     {
         if (!isInitialized_) return false;
 
@@ -347,10 +347,12 @@ struct Einsum
                         CUTENSOR_OP_ADD, computeType, work_raw, kWorksize_, stream));
         }
 
+	//nullinit();
         return true;
     }
 
     bool isInitialized() const { return isInitialized_; }
+    void nullinit() { isInitialized_ = false; }
 
     private:
     static const size_t kWorksize_ = 1024ULL * 1024ULL * 8ULL * 128ULL;
