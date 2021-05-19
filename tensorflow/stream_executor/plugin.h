@@ -40,6 +40,7 @@ enum class PluginKind {
   kDnn,
   kFft,
   kRng,
+  kTsr,
 };
 
 // A PluginConfig describes the set of plugins to be used by a StreamExecutor
@@ -72,14 +73,16 @@ class PluginConfig {
   PluginConfig& SetDnn(PluginId dnn);
   PluginConfig& SetFft(PluginId fft);
   PluginConfig& SetRng(PluginId rng);
+  PluginConfig& SetTsr(PluginId tsr);
 
   PluginId blas() const { return blas_; }
   PluginId dnn() const { return dnn_; }
   PluginId fft() const { return fft_; }
   PluginId rng() const { return rng_; }
+  PluginId tsr() const { return tsr_; }
 
  private:
-  PluginId blas_, dnn_, fft_, rng_;
+  PluginId blas_, dnn_, fft_, rng_, tsr_;
 };
 
 }  // namespace stream_executor

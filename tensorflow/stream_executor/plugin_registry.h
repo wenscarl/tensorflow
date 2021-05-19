@@ -27,6 +27,7 @@ limitations under the License.
 #include "tensorflow/stream_executor/platform.h"
 #include "tensorflow/stream_executor/plugin.h"
 #include "tensorflow/stream_executor/rng.h"
+#include "tensorflow/stream_executor/tsr.h"
 
 namespace stream_executor {
 
@@ -53,6 +54,7 @@ class PluginRegistry {
   typedef dnn::DnnSupport* (*DnnFactory)(internal::StreamExecutorInterface*);
   typedef fft::FftSupport* (*FftFactory)(internal::StreamExecutorInterface*);
   typedef rng::RngSupport* (*RngFactory)(internal::StreamExecutorInterface*);
+  typedef tsr::RngSupport* (*TsrFactory)(internal::StreamExecutorInterface*);
 
   // Gets (and creates, if necessary) the singleton PluginRegistry instance.
   static PluginRegistry* Instance();
@@ -108,13 +110,14 @@ class PluginRegistry {
     std::map<PluginId, DnnFactory> dnn;
     std::map<PluginId, FftFactory> fft;
     std::map<PluginId, RngFactory> rng;
+    std::map<PluginId, TsrFactory> tsr;
   };
 
   // Simple structure to hold the currently configured default plugins (for a
   // particular Platform).
   struct DefaultFactories {
     DefaultFactories();
-    PluginId blas, dnn, fft, rng;
+    PluginId blas, dnn, fft, rng, tsr;
   };
 
   PluginRegistry();
@@ -177,6 +180,7 @@ DECLARE_PLUGIN_SPECIALIZATIONS(BlasFactory);
 DECLARE_PLUGIN_SPECIALIZATIONS(DnnFactory);
 DECLARE_PLUGIN_SPECIALIZATIONS(FftFactory);
 DECLARE_PLUGIN_SPECIALIZATIONS(RngFactory);
+DECLARE_PLUGIN_SPECIALIZATIONS(TsrFactory);
 #undef DECL_PLUGIN_SPECIALIZATIONS
 
 }  // namespace stream_executor
