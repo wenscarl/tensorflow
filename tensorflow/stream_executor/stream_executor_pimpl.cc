@@ -31,6 +31,7 @@ limitations under the License.
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/stream_executor/blas.h"
 #include "tensorflow/stream_executor/fft.h"
+#include "tensorflow/stream_executor/tsr.h"
 #include "tensorflow/stream_executor/lib/env.h"
 #include "tensorflow/stream_executor/lib/error.h"
 #include "tensorflow/stream_executor/lib/stacktrace.h"
@@ -449,6 +450,16 @@ fft::FftSupport *StreamExecutor::AsFft() {
 
   fft_.reset(implementation_->CreateFft());
   return fft_.get();
+}
+
+tsr::TsrSupport *StreamExecutor::AsTsr() {
+  absl::MutexLock lock(&mu_);
+  if (tsr_ != nullptr) {
+    return tsr_.get();
+  }
+
+  tsr_.reset(implementation_->CreateTsr());
+  return tsr_.get();
 }
 
 rng::RngSupport *StreamExecutor::AsRng() {

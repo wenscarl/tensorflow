@@ -63,6 +63,7 @@ cc_library(
         "device_options.h",
         "event.cc",
         "fft.h",
+        "tsr.h",
         "kernel_cache_config.h",
         "launch_dim.h",
         "plugin.h",
@@ -103,6 +104,7 @@ cc_library(
     name = "kernel",
     srcs = [
         "fft.h",
+        "tsr.h",
         "kernel.cc",
         "plugin.h",
         "rng.h",
@@ -276,6 +278,14 @@ cc_library(
 )
 
 cc_library(
+    name = "tsr",
+    hdrs = ["tsr.h"],
+    deps = [
+        "//tensorflow/stream_executor/platform",
+    ],
+)
+
+cc_library(
     name = "blas",
     srcs = ["blas.cc"],
     hdrs = ["blas.h"],
@@ -332,6 +342,7 @@ cc_library(
         "blas.h",
         "executor_cache.h",
         "fft.h",
+        "tsr.h",
         "kernel.h",
         "kernel_cache_config.h",
         "kernel_spec.h",
@@ -556,6 +567,7 @@ cc_library(
         "event.h",
         "executor_cache.h",
         "fft.h",
+        "tsr.h",
         "gpu_launch_dim.h",
         "kernel.h",
         "kernel_cache_config.h",
@@ -605,6 +617,7 @@ cc_library(
         "event.h",
         "executor_cache.h",
         "fft.h",
+        "tsr.h",
         "gpu_launch_dim.h",
         "kernel.h",
         "kernel_cache_config.h",

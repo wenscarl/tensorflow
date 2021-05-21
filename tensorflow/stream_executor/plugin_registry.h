@@ -54,7 +54,7 @@ class PluginRegistry {
   typedef dnn::DnnSupport* (*DnnFactory)(internal::StreamExecutorInterface*);
   typedef fft::FftSupport* (*FftFactory)(internal::StreamExecutorInterface*);
   typedef rng::RngSupport* (*RngFactory)(internal::StreamExecutorInterface*);
-  typedef tsr::RngSupport* (*TsrFactory)(internal::StreamExecutorInterface*);
+  typedef tsr::TsrSupport* (*TsrFactory)(internal::StreamExecutorInterface*);
 
   // Gets (and creates, if necessary) the singleton PluginRegistry instance.
   static PluginRegistry* Instance();

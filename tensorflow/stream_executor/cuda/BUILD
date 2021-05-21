@@ -360,6 +360,55 @@ cc_library(
 )
 
 cc_library(
+    name = "cutensor_stub",
+    srcs = if_cuda_is_configured(["cutensor_stub.cc"]),
+    textual_hdrs = glob(["cutensor_*.inc"]),
+    deps = if_cuda_is_configured([
+        "@local_config_cuda//cuda:cuda_headers",
+        # LINT.IfChange
+        "@local_config_cuda//cuda:cutensor_headers",
+        # LINT.ThenChange(//tensorflow/copy.bara.sky:cublas_headers)
+        "//tensorflow/stream_executor/lib",
+        "//tensorflow/stream_executor/platform:dso_loader",
+    ]),
+)
+
+alias(
+    name = "cutensor_lib",
+    actual = select({
+        "//tensorflow:oss": ":cutensor_stub",
+        "//conditions:default": "@local_config_cuda//cuda:cutensor",
+    }),
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "cutsr_plugin",
+    srcs = if_cuda_is_configured(["cuda_tsr.cc"]),
+    hdrs = if_cuda_is_configured(["cuda_tsr.h"]),
+    visibility = ["//visibility:public"],
+    deps = if_cuda_is_configured([
+        ":cuda_activation_header",
+        ":cuda_gpu_executor_header",
+        ":cuda_platform_id",
+        ":cuda_stream",
+        ":cuda_helpers",
+        ":cutensor_lib",
+        "@local_config_cuda//cuda:cuda_headers",
+        "//tensorflow/stream_executor:event",
+        "//tensorflow/stream_executor:tsr",
+        "//tensorflow/stream_executor:plugin_registry",
+        "//tensorflow/stream_executor:scratch_allocator",
+        "//tensorflow/stream_executor/gpu:gpu_helpers_header",
+        "//tensorflow/stream_executor/lib",
+        "//tensorflow/stream_executor/platform",
+        "//tensorflow/stream_executor/platform:dso_loader",
+    ]),
+    alwayslink = True,
+)
+
+
+cc_library(
     name = "cudnn_stub",
     srcs = if_cuda_is_configured(["cudnn_stub.cc"]),
     textual_hdrs = glob(["cudnn_*.inc"]),
@@ -460,29 +509,6 @@ cc_library(
         "//tensorflow/stream_executor/platform:dso_loader",
     ]),
     alwayslink = True,
-)
-
-cc_library(
-    name = "cutensor_stub",
-    srcs = if_cuda_is_configured(["cutensor_stub.cc"]),
-    textual_hdrs = ["cutensor_1_2.inc"],
-    deps = if_cuda_is_configured([
-        "@local_config_cuda//cuda:cuda_headers",
-        # LINT.IfChange
-        "@local_config_cuda//cuda:cutensor_headers",
-        # LINT.ThenChange(//tensorflow/copy.bara.sky:cublas_headers)
-        "//tensorflow/stream_executor/lib",
-        "//tensorflow/stream_executor/platform:dso_loader",
-    ]),
-)
-
-alias(
-    name = "cutensor_lib",
-    actual = select({
-        "//tensorflow:oss": ":cutensor_stub",
-        "//conditions:default": "@local_config_cuda//cuda:cutensor",
-    }),
-    visibility = ["//visibility:public"],
 )
 
 cc_library(
@@ -680,6 +706,7 @@ cc_library(
         ":cuda_platform",
         ":cudnn_plugin",
         ":cufft_plugin",
+        ":cutsr_plugin",
         ":curand_plugin",
     ],
     alwayslink = 1,

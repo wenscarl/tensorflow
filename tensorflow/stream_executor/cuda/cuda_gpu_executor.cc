@@ -785,6 +785,20 @@ fft::FftSupport* GpuExecutor::CreateFft() {
   return status.ValueOrDie()(this);
 }
 
+tsr::TsrSupport* GpuExecutor::CreateTsr() {
+  PluginRegistry* registry = PluginRegistry::Instance();
+  port::StatusOr<PluginRegistry::TsrFactory> status =
+      registry->GetFactory<PluginRegistry::TsrFactory>(cuda::kCudaPlatformId,
+                                                       plugin_config_.tsr());
+  if (!status.ok()) {
+    LOG(ERROR) << "Unable to retrieve TSR factory: "
+               << status.status().error_message();
+    return nullptr;
+  }
+
+  return status.ValueOrDie()(this);
+}
+
 rng::RngSupport* GpuExecutor::CreateRng() {
   PluginRegistry* registry = PluginRegistry::Instance();
   port::StatusOr<PluginRegistry::RngFactory> status =
@@ -864,6 +878,8 @@ bool FillBlockDimLimit(GpuDeviceHandle device, BlockDim* block_dim_limit) {
 bool GpuExecutor::SupportsBlas() const { return true; }
 
 bool GpuExecutor::SupportsFft() const { return true; }
+
+bool GpuExecutor::SupportsTsr() const { return true; }
 
 bool GpuExecutor::SupportsRng() const { return true; }
 

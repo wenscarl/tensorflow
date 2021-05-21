@@ -352,6 +352,10 @@ class StreamExecutor {
   // that underlies this interface.
   bool SupportsFft() const;
 
+  // Returns whether the StreamExecutor supports TSR routines for the platform
+  // that underlies this interface.
+  bool SupportsTsr() const;
+
   // Returns whether the StreamExecutor supports RNG routines for the platform
   // that underlies this interface.
   bool SupportsRng() const;
@@ -483,6 +487,15 @@ class StreamExecutor {
   // Returns null if there was an error initializing the FFT support for the
   // underlying platform.
   fft::FftSupport *AsFft();
+  
+  // Gets-or-creates (creates with memoization) a TsrSupport datatype that can
+  // be used to execute Tsr routines on the current platform.
+  //
+  // Ownership and user-facing is the same as AsBlas() below.
+  //
+  // Returns null if there was an error initializing the Tsr support for the
+  // underlying platform.
+  tsr::TsrSupport *AsTsr();
 
   // Gets-or-creates (creates with memoization) a DnnSupport datatype that can
   // be used for neural network routines on the current platform.
@@ -690,6 +703,10 @@ class StreamExecutor {
   // Memoized FFT support object -- we only want to create this once when asked
   // for a FFT interface.
   std::unique_ptr<fft::FftSupport> fft_;
+
+  // Memoized Tsr support object -- we only want to create this once when asked
+  // for a Tsr interface.
+  std::unique_ptr<tsr::TsrSupport> tsr_;
 
   // Memoized RNG support object -- we only want to create this once when asked
   // for an RNG interface.
