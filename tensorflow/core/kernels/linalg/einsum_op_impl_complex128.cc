@@ -48,7 +48,7 @@ TF_CALL_complex128(REGISTER_EINSUM_KERNELS_CPU);
   REGISTER_KERNEL_BUILDER(                                         \
       Name("Einsum").Device(DEVICE_GPU).TypeConstraint<TYPE>("T"), \
       EinsumGpuOp<GPUDevice, TYPE>);
-TF_CALL_complex128(REGISTER_EINSUM_KERNELS_GPU);
+//TF_CALL_complex128(REGISTER_EINSUM_KERNELS_GPU);
 #undef REGISTER_EINSUM_KERNELS_GPU
 #endif  // GOOGLE_CUDA || TENSORFLOW_USE_ROCM
 

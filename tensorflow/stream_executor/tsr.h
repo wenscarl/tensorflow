@@ -46,6 +46,9 @@ limitations under the License.
 #include <complex>
 #include <memory>
 #include <vector>
+// #if GOOGLE_CUDA
+// #include "third_party/gpus/cuda/cuda_config.h"
+// #endif
 #include "tensorflow/stream_executor/platform/port.h"
 
 namespace stream_executor {
@@ -69,12 +72,35 @@ class TsrSupport {
   // Creates a cuTensor handle.
   virtual std::unique_ptr<Handle> CreateHandle(
       Stream *stream, const std::string equation,
-      const std::vector<int64> &A_shape, const std::vector<int64> &B_shape) = 0;
+      const std::vector<int> &A_shape,
+      const std::vector<int> &B_shape) = 0;
+
 
   virtual bool DoTsrContraction(Stream *stream, Handle *handle,
-                                     const void* A_raw,
-                                     const void* B_raw, void* C_raw,
-                                     void *work_raw) = 0;
+                                double &alpha, double &beta,
+                                const void* A_raw,
+                                const void* B_raw, void* C_raw,
+                                void *work_raw) = 0;
+  virtual bool DoTsrContraction(Stream *stream, Handle *handle,
+                                float &alpha, float &beta,
+                                const void* A_raw,
+                                const void* B_raw, void* C_raw,
+                                void *work_raw) = 0;
+  virtual bool DoTsrContraction(Stream *stream, Handle *handle,
+                                Eigen::half &alpha, Eigen::half &beta,
+                                const void* A_raw,
+                                const void* B_raw, void* C_raw,
+                                void *work_raw) = 0;
+  // virtual bool DoTsrContraction(Stream *stream, Handle *handle,
+  //                               std::complex<double> &alpha, std::complex<double> &beta,
+  //                               const void* A_raw,
+  //                               const void* B_raw, void* C_raw,
+  //                               void *work_raw) = 0;
+  // virtual bool DoTsrContraction(Stream *stream, Handle *handle,
+  //                               std::complex<float> &alpha, std::complex<float> &beta,
+  //                               const void* A_raw,
+  //                               const void* B_raw, void* C_raw,
+  //                               void *work_raw) = 0;
  protected:
   TsrSupport() {}
 
@@ -83,14 +109,30 @@ class TsrSupport {
 };
 
 #define TENSORFLOW_STREAM_EXECUTOR_GPU_TSR_SUPPORT_OVERRIDES    \
-  std::unique_ptr<tsr::Handle> CreateHandle(Stream *stream,            \
-      const std::string equation, const std::vector<int64> &A_shape,     \
-      const std::vector<int64> &B_shape) override; \
-  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, const void* A_raw, \
-                             const void* B_raw, void* C_raw,             \
-                             void *work_raw) override;
-
-
+  std::unique_ptr<tsr::Handle> CreateHandle(Stream*stream, \
+                                            const std::string equation,\
+                                            const std::vector<int> &A_shape,\
+                                            const std::vector<int> &B_shape) override; \
+  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
+                        double &alpha, double &beta, \
+                        const void* A_raw,  const void* B_raw, void* C_raw,             \
+                        void *work_raw) override;                           \
+  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
+                        float &alpha, float &beta, \
+                        const void* A_raw,  const void* B_raw, void* C_raw,             \
+                        void *work_rawd) override; \
+  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
+                        Eigen::half &alpha, Eigen::half &beta, \
+                        const void* A_raw,  const void* B_raw, void* C_raw,             \
+                        void *work_raw) override;    
+  // bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
+  //                       std::complex<double> &alpha, std::complex<double> &beta, \
+  //                       const void* A_raw,  const void* B_raw, void* C_raw,             \
+  //                       void *work_rawd) override; \
+  // bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
+  //                       std::complex<float> &alpha, std::complex<float> &beta, \
+  //                       const void* A_raw,  const void* B_raw, void* C_raw,             \
+  //                       void *work_rawd) override;
 } // namespace tsr
 } // namespace stream_executor
 

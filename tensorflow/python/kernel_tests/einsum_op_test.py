@@ -76,21 +76,21 @@ class EinsumcuTENSORTest(test.TestCase):
                 equation="ik,kj->ij",
                 dtype=np.float16,
             ),
-            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=np.float16),
-            param(
-                "test 6",
-                a_size=(50, 50, 50, 20),
-                b_size=(50, 50, 50, 20),
-                equation="likm,lkjm->lij",
-                dtype=np.float16,
-            ),
-            param(
-                "test 7",
-                a_size=(20, 50, 50, 50),
-                b_size=(50, 50, 50, 20),
-                equation="mlik,lkjm->lij",
-                dtype=np.float16,
-            ),
+#            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=np.float16),
+#            param(
+#                "test 6",
+#                a_size=(50, 50, 50, 20),
+#                b_size=(50, 50, 50, 20),
+#                equation="likm,lkjm->lij",
+#                dtype=np.float16,
+#            ),
+#            param(
+#                "test 7",
+#                a_size=(20, 50, 50, 50),
+#                b_size=(50, 50, 50, 20),
+#                equation="mlik,lkjm->lij",
+#                dtype=np.float16,
+#            ),
         ]
         # yapf: enable
     )

@@ -33,6 +33,7 @@ limitations under the License.
 #include "tensorflow/stream_executor/dnn.h"
 #include "tensorflow/stream_executor/event.h"
 #include "tensorflow/stream_executor/fft.h"
+#include "tensorflow/stream_executor/tsr.h"
 #include "tensorflow/stream_executor/host_or_device_scalar.h"
 #include "tensorflow/stream_executor/kernel.h"
 #include "tensorflow/stream_executor/launch_dim.h"
@@ -1681,6 +1682,23 @@ class Stream {
   Stream &ThenFft(fft::Plan *plan,
                   const DeviceMemory<std::complex<double>> &input,
                   DeviceMemory<double> *output);
+
+    // See TsrSupport::DoTsrContraction.
+  Stream &ThenTsrContraction(tsr::Handle *handle,
+                             double &alpha, double &beta,
+                             const void* A_raw,
+                             const void* B_raw, void* C_raw,
+                             void *work_raw);
+  Stream &ThenTsrContraction(tsr::Handle *handle,
+                             float &alpha, float &beta,
+                             const void* A_raw,
+                             const void* B_raw, void* C_raw,
+                             void *work_raw);
+  Stream &ThenTsrContraction(tsr::Handle *handle,
+                             Eigen::half &alpha, Eigen::half &beta,
+                             const void* A_raw,
+                             const void* B_raw, void* C_raw,
+                             void *work_raw);
 
   // Makes the RNG use the provided value as the basis for further generation.
   // /dev/urandom (good) and /dev/random (better, but sometimes slow) are good

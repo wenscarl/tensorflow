@@ -4962,6 +4962,61 @@ Stream &Stream::ThenFft(fft::Plan *plan,
   return *this;
 }
 
+Stream &Stream::ThenTsrContraction(tsr::Handle *handle,
+                                   double &alpha, double &beta,
+                                   const void *A_raw,
+                                   const void* B_raw,
+                                   void* C_raw,
+                                   void *work_raw) {
+
+  if (tsr::TsrSupport *tsr = parent_->AsTsr()) {
+    CheckError(tsr->DoTsrContraction(this, handle, alpha, beta, A_raw, B_raw,
+                                     C_raw, work_raw));
+  } else {
+    SetError();
+    LOG(INFO) << DebugStreamPointers()
+              << " attempting to perform TSR operation using StreamExecutor"
+                 " without TSR support";
+  }
+  return *this;
+}
+
+Stream &Stream::ThenTsrContraction(tsr::Handle *handle,
+                                   float &alpha, float &beta,
+                                   const void* A_raw,
+                                   const void* B_raw, void* C_raw,
+                                   void *work_raw) {
+
+  if (tsr::TsrSupport *tsr = parent_->AsTsr()) {
+    CheckError(tsr->DoTsrContraction(this, handle, alpha, beta, A_raw, B_raw,
+                                     C_raw, work_raw));
+  } else {
+    SetError();
+    LOG(INFO) << DebugStreamPointers()
+              << " attempting to perform TSR operation using StreamExecutor"
+                 " without TSR support";
+  }
+  return *this;
+}
+
+Stream &Stream::ThenTsrContraction(tsr::Handle *handle,
+                                   Eigen::half &alpha, Eigen::half  &beta,
+                                   const void* A_raw,
+                                   const void* B_raw, void* C_raw,
+                                   void *work_raw) {
+
+  if (tsr::TsrSupport *tsr = parent_->AsTsr()) {
+    CheckError(tsr->DoTsrContraction(this, handle, alpha, beta, A_raw, B_raw,
+                                     C_raw, work_raw));
+  } else {
+    SetError();
+    LOG(INFO) << DebugStreamPointers()
+              << " attempting to perform TSR operation using StreamExecutor"
+                 " without TSR support";
+  }
+  return *this;
+}
+
 // It looks confusing, but all this is doing is inserting a callback at the
 // present point in the stream to then enqueue a task on the host executor.
 Stream &Stream::ThenEnqueueOnBackgroundThread(

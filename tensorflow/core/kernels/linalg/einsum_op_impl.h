@@ -95,11 +95,16 @@ class EinsumGpuOp : public OpKernel {
     const Tensor& input_1_tensor = ctx->input(1);
 
     std::vector<int64> input_0_shape, input_1_shape;
+    std::vector<int> input_0_shape_int, input_1_shape_int;
 
-    for (int i = 0; i < input_0_tensor.dims(); i++)
+    for (int i = 0; i < input_0_tensor.dims(); i++) {
         input_0_shape.push_back(input_0_tensor.dim_size(i));
-    for (int i = 0; i < input_1_tensor.dims(); i++)
+        input_0_shape_int.push_back(input_0_tensor.dim_size(i));
+    }
+    for (int i = 0; i < input_1_tensor.dims(); i++) {
         input_1_shape.push_back(input_1_tensor.dim_size(i));
+        input_1_shape_int.push_back(input_1_tensor.dim_size(i));
+    }  
     Einsum<T,int64,12> myEinsum(equation_, input_0_shape, input_1_shape);
 
     for (auto k : input_0_shape) {
@@ -111,7 +116,7 @@ class EinsumGpuOp : public OpKernel {
     Tensor* output_tensor = NULL;
     TensorShape output_shape = TensorShape(output_dims);
     OP_REQUIRES_OK(ctx, ctx->allocate_output(0, output_shape, &output_tensor));
-   // ctx->allocate_temp(DataTypeToEnum<T>::value, output_shape, output_tensor);
+    //ctx->allocate_temp(DataTypeToEnum<T>::value, output_shape, output_tensor);
 
     size_t worksize = myEinsum.getWorksize();
     Tensor work_tensor;
@@ -122,16 +127,26 @@ class EinsumGpuOp : public OpKernel {
  //   if (std::is_same<Device, GPUDevice>::value) {
 	   const GPUDevice& device = ctx->eigen_device<Device>();
  //   }
-    cutensorHandle_t handle;
-    cutensorInit(&handle);
-
-    auto ret = myEinsum.execute( &handle,  //GetCuTensorHandle(),
-                                input_0_tensor.flat<T>().data(),
-                                input_1_tensor.flat<T>().data(),
-                                output_tensor->flat<T>().data(),
-                                work_tensor.flat<float>().data(),
-                                device.stream());
-    cutensorHandleDetachPlanCachelines(&handle);
+ //   cutensorHandle_t handle;
+ //   cutensorInit(&handle);
+    auto* stream = ctx->op_device_context()->stream();
+    auto handleMUMU = stream->parent()->AsTsr()->CreateHandle(
+        stream, equation_, input_0_shape_int, input_1_shape_int);
+    T alpha = (T)1.0f;
+    T beta = (T)0.0f;
+    DoTsrInternal<T>(ctx, stream, handleMUMU.get(), alpha, beta,
+                     input_0_tensor.flat<T>().data(),
+                     input_1_tensor.flat<T>().data(),
+                     output_tensor->flat<T>().data(),
+                     work_tensor.flat<float>().data());
+    // T dmm;
+// auto ret = myEinsum.execute(   &handle,  //GetCuTensorHandle(),
+//                             input_0_tensor.flat<T>().data(),
+//                             input_1_tensor.flat<T>().data(),
+//                             output_tensor->flat<T>().data(),
+//                             work_tensor.flat<float>().data(),
+//                             device.stream());
+//   cutensorHandleDetachPlanCachelines(&handle);
   //  Status fuc_stat = functor::EinsumCutensorFunctor<Device, T>::Compute(ctx,
 //		     input_0_tensor.flat<T>().data(),input_1_tensor.flat<T>().data(), output_tensor->flat<T>().data(), work_tensor.flat<float>().data(), equation_, {50,50},{50,50} );
 //  
@@ -146,8 +161,24 @@ class EinsumGpuOp : public OpKernel {
 //      OP_REQUIRES(context, ret, errors::Internal("cutensor_python: Launch failed."));
 //    }
 
-    OP_REQUIRES(ctx, ret, errors::Internal("cutensor_python: Launch failed."));
+    // OP_REQUIRES(ctx, ret, errors::Internal("cutensor_python: Launch failed."));
   }
+  private:
+   template <typename G>
+   void DoTsrInternal(OpKernelContext* ctx, se::Stream* stream,
+                      se::tsr::Handle* handle, G &alpha, G &beta, const void* A_raw,
+                      const void* B_raw, void* C_raw, void *work_raw) {
+//   void DoTsrInternal(OpKernelContext* ctx, se::Stream* stream,
+//                      se::tsr::Handle* handle, G &alpha, G &beta, const Tensor& A,
+//                      const Tensor&  B, Tensor* C, Tensor& work) {
+//      auto srcA = AsDeviceMemory<G>(A.flat<G>().data());
+//      auto srcB = AsDeviceMemory<G>(B.flat<G>().data());
+//      auto srcC = AsDeviceMemory<G>(C->flat<G>().data());
+//      auto srcwork = AsDeviceMemory<G>(work.flat<float>().data());
+      OP_REQUIRES(
+         ctx, stream->ThenTsrContraction(handle, alpha, beta, A_raw, B_raw, C_raw, work_raw).ok(),
+         errors::Internal("tsr failed "));
+   }
 };
 
 
