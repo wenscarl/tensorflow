@@ -13,94 +13,84 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-// Exposes the family of FFT routines as pre-canned high performance calls for
+// Exposes the family of TSR routines as pre-canned high performance calls for
 // use in conjunction with the StreamExecutor abstraction.
 //
 // Note that this interface is optionally supported by platforms; see
-// StreamExecutor::SupportsFft() for details.
+// StreamExecutor::TsrSupport() for details.
 //
-// This abstraction makes it simple to entrain FFT operations on GPU data into
+// This abstraction makes it simple to entrain Einsum operation on GPU data into
 // a Stream -- users typically will not use this API directly, but will use the
-// Stream builder methods to entrain these operations "under the hood". For
-// example:
-//
-//  DeviceMemory<std::complex<float>> x =
-//    stream_exec->AllocateArray<std::complex<float>>(1024);
-//  DeviceMemory<std::complex<float>> y =
-//    stream_exec->AllocateArray<std::complex<float>>(1024);
-//  // ... populate x and y ...
-//  Stream stream{stream_exec};
-//  std::unique_ptr<Plan> plan =
-//     stream_exec.AsFft()->Create1dPlan(&stream, 1024, Type::kC2CForward);
-//  stream
-//    .Init()
-//    .ThenFft(plan.get(), x, &y);
-//  SE_CHECK_OK(stream.BlockHostUntilDone());
-//
+// Stream builder methods to entrain these operations "under the hood".
 // By using stream operations in this manner the user can easily intermix custom
-// kernel launches (via StreamExecutor::ThenLaunch()) with these pre-canned FFT
+// kernel launches (via StreamExecutor::ThenLaunch()) with these pre-canned TSR
 // routines.
 
 #ifndef TENSORFLOW_STREAM_EXECUTOER_TSR_H_
 #define TENSORFLOW_STREAM_EXECUTOER_TSR_H_
+
 #include <complex>
 #include <memory>
 #include <vector>
-// #if GOOGLE_CUDA
-// #include "third_party/gpus/cuda/cuda_config.h"
-// #endif
-#include "tensorflow/stream_executor/platform/port.h"
+
+#include "tensorflow/stream_executor/lib/status.h"
+
 
 namespace stream_executor {
 
 class Stream;
-template <typename ElemT>
-class DeviceMemory;
-class ScratchAllocator;
 
 namespace tsr {
 
-class Handle {
- public:
-  virtual ~Handle() {}
+struct TsrTypeHelper {
+  enum TsrTypeAlias {
+    INVALID_TYPE = 0,
+    FLOAT_TYPE,
+    DOUBLE_TYPE,
+    HALF_TYPE,
+    COMPLEX64_TYPE,
+    COMPLEX128_TYPE
+  };
+
+  template <typename T>
+  static TsrTypeAlias TsrInitType() {
+    if (std::is_same<T, double>::value) {
+      return TsrTypeAlias::DOUBLE_TYPE;
+    } else if (std::is_same<T, float>::value) {
+      return TsrTypeAlias::FLOAT_TYPE;
+    } else if (std::is_same<T, Eigen::half>::value) {
+      return TsrTypeAlias::HALF_TYPE;
+    } else if (std::is_same<T, std::complex<float>>::value) {
+      return TsrTypeAlias::COMPLEX64_TYPE;
+    } else if (std::is_same<T, std::complex<double>>::value) {
+      return TsrTypeAlias::COMPLEX128_TYPE;
+    } else {
+      return TsrTypeAlias::INVALID_TYPE;
+    }
+  }
 };
+
 
 class TsrSupport {
  public:
   virtual ~TsrSupport() {}
 
-  // Creates a cuTensor handle.
-  virtual std::unique_ptr<Handle> CreateHandle(
-      Stream *stream, const std::string equation,
-      const std::vector<int> &A_shape,
-      const std::vector<int> &B_shape) = 0;
+  virtual port::Status InitializeModes(
+              Stream *stream, std::vector<int64> &output_dims,
+              TsrTypeHelper::TsrTypeAlias type,
+              const std::string &equation,
+              const std::vector<int> &A_shape,
+              const std::vector<int> &B_shape) = 0;
 
+  virtual bool EstimateWorkSpace(
+      Stream *stream, size_t &worksize, const void* A_raw,  const void* B_raw,
+      void* C_raw) = 0;
 
-  virtual bool DoTsrContraction(Stream *stream, Handle *handle,
-                                double &alpha, double &beta,
+  virtual bool DoTsrContraction(Stream *stream,
                                 const void* A_raw,
                                 const void* B_raw, void* C_raw,
                                 void *work_raw) = 0;
-  virtual bool DoTsrContraction(Stream *stream, Handle *handle,
-                                float &alpha, float &beta,
-                                const void* A_raw,
-                                const void* B_raw, void* C_raw,
-                                void *work_raw) = 0;
-  virtual bool DoTsrContraction(Stream *stream, Handle *handle,
-                                Eigen::half &alpha, Eigen::half &beta,
-                                const void* A_raw,
-                                const void* B_raw, void* C_raw,
-                                void *work_raw) = 0;
-  // virtual bool DoTsrContraction(Stream *stream, Handle *handle,
-  //                               std::complex<double> &alpha, std::complex<double> &beta,
-  //                               const void* A_raw,
-  //                               const void* B_raw, void* C_raw,
-  //                               void *work_raw) = 0;
-  // virtual bool DoTsrContraction(Stream *stream, Handle *handle,
-  //                               std::complex<float> &alpha, std::complex<float> &beta,
-  //                               const void* A_raw,
-  //                               const void* B_raw, void* C_raw,
-  //                               void *work_raw) = 0;
+
  protected:
   TsrSupport() {}
 
@@ -108,34 +98,20 @@ class TsrSupport {
   SE_DISALLOW_COPY_AND_ASSIGN(TsrSupport);
 };
 
-#define TENSORFLOW_STREAM_EXECUTOR_GPU_TSR_SUPPORT_OVERRIDES    \
-  std::unique_ptr<tsr::Handle> CreateHandle(Stream*stream, \
-                                            const std::string equation,\
-                                            const std::vector<int> &A_shape,\
-                                            const std::vector<int> &B_shape) override; \
-  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
-                        double &alpha, double &beta, \
-                        const void* A_raw,  const void* B_raw, void* C_raw,             \
-                        void *work_raw) override;                           \
-  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
-                        float &alpha, float &beta, \
-                        const void* A_raw,  const void* B_raw, void* C_raw,             \
-                        void *work_rawd) override; \
-  bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
-                        Eigen::half &alpha, Eigen::half &beta, \
-                        const void* A_raw,  const void* B_raw, void* C_raw,             \
-                        void *work_raw) override;    
-  // bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
-  //                       std::complex<double> &alpha, std::complex<double> &beta, \
-  //                       const void* A_raw,  const void* B_raw, void* C_raw,             \
-  //                       void *work_rawd) override; \
-  // bool DoTsrContraction(Stream *stream, tsr::Handle *handle, \
-  //                       std::complex<float> &alpha, std::complex<float> &beta, \
-  //                       const void* A_raw,  const void* B_raw, void* C_raw,             \
-  //                       void *work_rawd) override;
+#define TENSORFLOW_STREAM_EXECUTOR_GPU_TSR_SUPPORT_OVERRIDES                   \
+  port::Status InitializeModes(                                                \
+      Stream *stream, std::vector<int64> &output_dims,                         \
+      tsr::TsrTypeHelper::TsrTypeAlias type,                                   \
+      const std::string &equation,                                             \
+      const std::vector<int> &A_shape,                                         \
+      const std::vector<int> &B_shape) override;                               \
+  bool EstimateWorkSpace(                                                      \
+      Stream *stream, size_t &worksize,                                        \
+      const void* A_raw,  const void* B_raw, void* C_raw) override;            \
+  bool DoTsrContraction(Stream *stream,                                 \
+                        const void* A_raw,  const void* B_raw,                 \
+                        void* C_raw, void *work_raw) override;
 } // namespace tsr
 } // namespace stream_executor
 
-
 #endif // TENSORFLOW_STREAM_EXECUTOER_TSR_H_
-

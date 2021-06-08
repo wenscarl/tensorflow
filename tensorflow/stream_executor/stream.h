@@ -1683,22 +1683,27 @@ class Stream {
                   const DeviceMemory<std::complex<double>> &input,
                   DeviceMemory<double> *output);
 
-    // See TsrSupport::DoTsrContraction.
-  Stream &ThenTsrContraction(tsr::Handle *handle,
-                             double &alpha, double &beta,
-                             const void* A_raw,
-                             const void* B_raw, void* C_raw,
+  // See TsrSupport::DoTsrContraction.
+  Stream &ThenTsrContraction(const void* A_raw, const void* B_raw, void* C_raw,
                              void *work_raw);
-  Stream &ThenTsrContraction(tsr::Handle *handle,
-                             float &alpha, float &beta,
-                             const void* A_raw,
-                             const void* B_raw, void* C_raw,
-                             void *work_raw);
-  Stream &ThenTsrContraction(tsr::Handle *handle,
-                             Eigen::half &alpha, Eigen::half &beta,
-                             const void* A_raw,
-                             const void* B_raw, void* C_raw,
-                             void *work_raw);
+  // Stream &ThenTsrContraction(const float alpha, const float beta,
+  //                            const void* A_raw,
+  //                            const void* B_raw, void* C_raw,
+  //                            void *work_raw);
+  // Stream &ThenTsrContraction(const Eigen::half alpha, const Eigen::half beta,
+  //                            const void* A_raw,
+  //                            const void* B_raw, void* C_raw,
+  //                            void *work_raw);
+  // Stream &ThenTsrContraction(const std::complex<double> alpha,
+  //                            const std::complex<double> beta,
+  //                            const void* A_raw,
+  //                            const void* B_raw, void* C_raw,
+  //                            void *work_raw);
+  // Stream &ThenTsrContraction(const std::complex<float> alpha,
+  //                            const std::complex<float> beta,
+  //                            const void* A_raw,
+  //                            const void* B_raw, void* C_raw,
+  //                            void *work_raw);
 
   // Makes the RNG use the provided value as the basis for further generation.
   // /dev/urandom (good) and /dev/random (better, but sometimes slow) are good

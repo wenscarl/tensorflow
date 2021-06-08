@@ -1,7 +1,4 @@
-# ! /usr/bin/python
-# -*- coding: utf-8 -*-
-
-# Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
+# Copyright 2019 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,120 +11,112 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# ==============================================================================
+"""Tests for tensorflow.ops.Einsum."""
 
-"""Tests for conv3d_cu_tensor ops."""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
-from parameterized import parameterized
-from parameterized import param
 import numpy as np
 
-import tensorflow as tf
-from tensorflow.python.platform import test
+from tensorflow.python.client import session
+from tensorflow.python.framework import constant_op
+from tensorflow.python.framework import dtypes
+from tensorflow.python.framework import errors
+from tensorflow.python.framework import ops
+from tensorflow.python.framework import test_util
+from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import gen_linalg_ops
-from tensorflow.python.framework.ops import device
-
-from tensorflow.python.ops import variable_scope
-from tensorflow.python.ops import init_ops_v2
-
-#tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-
-
+from tensorflow.python.ops import gradient_checker_v2
+from tensorflow.python.ops import special_math_ops
+from tensorflow.python.ops import variables
+from tensorflow.python.platform import benchmark
+from tensorflow.python.platform import test
 
 class EinsumcuTENSORTest(test.TestCase):
 
-    # Assert TF test methods:
-    # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/framework/test_util.py#L2474
+    def _check(self, s, *input_shapes, **kwargs):
+      dtype = kwargs.pop('dtype', np.float32)
+      inputs = []
+      for shape in input_shapes:
+        with self.subTest(s=s, shape=shape):
+          arr = np.array(np.random.random(shape)).astype(dtype)
+          if dtype == np.complex64 or dtype == np.complex128:
+            arr += 1j * np.array(np.random.random(shape)).astype(dtype)
+          inputs.append(arr)
+      input_tensors = [constant_op.constant(x, shape=x.shape) for x in inputs]
+      a = np.einsum(s, *inputs)
+      b = self.evaluate(gen_linalg_ops.einsum(input_tensors, s))
+      self.assertAllClose(a, b, atol=5e-3, rtol=5e-3)
 
-    @parameterized.expand(
-        # yapf: disable
-        [
-            param(
-                "test 0",
-                a_size=(50, 50),
-                b_size=(50, 50),
-                equation="ik,kj->ij",
-                dtype=np.float32,
-            ),
-            param(
-                "test 1",
-                a_size=(50, 50, 50),
-                b_size=(50, 50, 50),
-                equation="lik,lkj->lij",
-                dtype=np.float32,
-            ),
-            param(
-                "test 2",
-                a_size=(50, 50, 50, 20),
-                b_size=(50, 50, 50, 20),
-                equation="likm,lkjm->lij",
-                dtype=np.float32,
-            ),
-            param(
-                "test 3",
-                a_size=(20, 50, 50, 50),
-                b_size=(50, 50, 50, 20),
-                equation="mlik,lkjm->lij",
-                dtype=np.float32,
-            ),
-            param(
-                "test 4",
-                a_size=(50, 50),
-                b_size=(50, 50),
-                equation="ik,kj->ij",
-                dtype=np.float16,
-            ),
-#            param("test 5", a_size=(50, 50, 50), b_size=(50, 50, 50), equation="lik,lkj->lij", dtype=np.float16),
-#            param(
-#                "test 6",
-#                a_size=(50, 50, 50, 20),
-#                b_size=(50, 50, 50, 20),
-#                equation="likm,lkjm->lij",
-#                dtype=np.float16,
-#            ),
-#            param(
-#                "test 7",
-#                a_size=(20, 50, 50, 50),
-#                b_size=(50, 50, 50, 20),
-#                equation="mlik,lkjm->lij",
-#                dtype=np.float16,
-#            ),
-        ]
-        # yapf: enable
-    )
-    def test_einsum_equivalent_results(self, _, a_size, b_size, equation, dtype=np.float32):
-    #    A = variable_scope.get_variable("A", shape=a_size, initializer=init_ops_v2.random_normal_initializer, dtype=dtype)
+    def _check_gradient(self, s, *input_shapes, **kwargs):
+      dtype = kwargs.pop('dtype', np.float32)
+      with self.cached_session():
+        with self.subTest(s=s, dtype=dtype):
+          tol = 10 * np.sqrt(np.finfo(dtype).resolution)
+          if dtype in (np.complex64, np.complex128):
+            inputs = [
+                np.array(r.random.random(shape), dtype) +
+                1j * np.array(np.random.random(shape), dtype) for shape in input_shapes
+            ]
+          else:
+            inputs = [
+                np.array(np.random.random(shape), dtype) for shape in input_shapes]
+          input_tensors = [
+              constant_op.constant(x, shape=x.shape) for x in inputs]
+          analytical, numerical = gradient_checker_v2.compute_gradient(
+              lambda *xs: gen_linalg_ops.einsum(xs, s), input_tensors)
+          self.assertLess(
+              gradient_checker_v2.max_error(analytical, numerical), tol)
 
-   #     B = variable_scope.get_variable("B", shape=b_size, initializer=init_ops_v2.random_normal_initializer, dtype=dtype)
 
-        #with self.session(use_gpu=False):
-        with device('/GPU:0'):
-           A = np.random.random(size=a_size)
-           B = np.random.random(size=b_size)
-           #tf_native_rslt = tf.einsum(equation, A, B, name="tf_native_einsum")
-           tf_native_rslt = gen_linalg_ops.einsum([A, B], equation)
-   #        tf_native_grads = tf.gradients(tf_native_rslt, [A, B])
-   
-           tf_cutensor_rslt = np.einsum(equation, A, B)
-   #        tf_cutensor_grads = tf.gradients(tf_cutensor_rslt, [A, B])
-   
-           self.assertEqual(tf_native_rslt.get_shape(), tf_cutensor_rslt.shape)
-   
-           self.assertEqual(tf_native_rslt.dtype, tf_cutensor_rslt.dtype)
-           self.assertAllClose(tf_native_rslt, tf_cutensor_rslt, rtol=5e-03, atol=5e-03)
-     #   self.assertEqual(len(tf_cutensor_grads), len(tf_native_grads))
+    def testBinary(self):
+      # Binary cases in XLA mode must have either (a) each index appearing exactly
+      # once in both the inputs (batch or contraction index), or (b) appearing
+      # exactly once in an input and in the output (free index).
+      self._check("ik,kj->ij", (50, 50), (50, 50))
+      self._check("lik,lkj->lij", (50, 50, 50), (50, 50, 50))
+      self._check("likm,lkjm->lij", (50, 50, 50, 20),(50, 50, 50, 20))
+      self._check("mlik,lkjm->lij", (20, 50, 50, 50), (50, 50, 50, 20))
+      self._check("ik,kj->ij", (50, 50), (50, 50), dtype=np.float16)
+      self._check("lik,lkj->lij", (50, 50, 50), (50, 50, 50), dtype=np.float16)
+      self._check("likm,lkjm->lij", (50, 50, 50, 20), (50, 50, 50, 20),
+                  dtype=np.float16)
+      self._check("mlik,lkjm->lij", (20, 50, 50, 50), (50, 50, 50, 20),
+                  dtype=np.float16)
+      self._check("mlik,lkjm->lij", (20, 50, 50, 50), (50, 50, 50, 20),
+                  dtype=np.complex64)
+      self._check("mlik,lkjm->lij", (20, 50, 50, 50), (50, 50, 50, 20),
+                  dtype=np.complex128)
 
-#        with self.session(use_gpu=True) as sess:
-#
-#            sess.run(tf.compat.v1.global_variables_initializer())
-#
-#            # mismatch 0.001885741949081421%
-#            self.assertAllClose(tf_native_rslt, tf_cutensor_rslt, rtol=5e-03, atol=5e-03)
+    def testUnary(self):
+      self._check("mlik->imkl", (50, 40, 40, 50))
+      self._check("mlik->kl", (20, 40, 40, 50))
 
-#            for tf_native_grad, tf_cutensor_grad in zip(tf_native_grads, tf_cutensor_grads):
-#                self.assertAllClose(tf_native_grad, tf_cutensor_grad, rtol=5e-03, atol=5e-03)
-#                self.assertEqual(tf_native_grad.dtype, tf_cutensor_grad.dtype)
+    def testBroadcasting(self):
+      self._check("...ij,...jk->...ik", (11, 7 ,5, 30), (11, 7, 30, 2),
+                  dtype=np.float16)
+
+    def testBinaryGrad(self):
+      self._check_gradient('a,a->a', (3,), (3,))
+      self._check_gradient('ab,b->a', (3, 4), (4,))
+      self._check_gradient('ab,ab->', (3, 4), (3, 4))
+      self._check_gradient('ab,bc->ac', (3, 4), (4, 5))
+      self._check_gradient('nij,jk->nik', (5, 2, 3), (3, 4))
+      self._check_gradient('abc,bad->abcd', (1, 2, 3), (2, 1, 4))
+
+    def testUnaryGrad(self):
+       self._check_gradient('abcd->da', (3, 5, 4, 2))
+
+    def testBroadcastingGrad(self):
+      self._check_gradient('...ij,...jk->...ik', (3, 2), (2, 4))
+      self._check_gradient('ij...,jk...->ik...', (3, 2, 1), (2, 4))
+      self._check_gradient('...ij,...jk->...ik', (3, 1, 3, 2), (1, 5, 2, 4))
+      self._check_gradient('i...j,j...k->i...k', (3, 1, 2, 2), (2, 2, 3, 1, 4))
 
 
 if __name__ == '__main__':
     test.main()
+
 

@@ -41,6 +41,7 @@ limitations under the License.
 #include "tensorflow/core/lib/math/math_util.h"
 #include "tensorflow/core/platform/types.h"
 #include "tensorflow/core/profiler/lib/traceme.h"
+#include "tensorflow/core/util/env_var.h"
 #include "tensorflow/core/util/einsum_op_util.h"
 #include "third_party/gpus/cuda/include/cutensor.h"
 //#include "tensorflow/core/kernels/linalg/einsum_cutensor.h"
@@ -61,127 +62,6 @@ using OperandLabels = gtl::InlinedVector<Labels, 2>;
 using LabelCounts = gtl::InlinedVector<int, 8>;
 using OperandLabelCounts = gtl::InlinedVector<LabelCounts, 2>;
 using LabelToDimSizes = gtl::InlinedVector<int64, 8>;
-
-//#if MXNET_USE_CUTENSOR == 1
-
-//#endif
-inline cutensorHandle_t CreateCuTensorHandle() {
-  cutensorHandle_t handle;
-  cutensorInit(&handle);
-  if (getenv("CUTENSOR_CACHE") && atoi(getenv("CUTENSOR_CACHE")) == 1) {
-    cutensorPlanCacheline_t* cachelines = new cutensorPlanCacheline_t[32];
-    cutensorHandleAttachPlanCachelines(&handle, cachelines, 32);
-  }
-  return handle;
-}
-inline cutensorHandle_t* GetCuTensorHandle() {
-  static cutensorHandle_t handle = CreateCuTensorHandle();
-  return &handle;
-}
-
-
-template <typename Device, typename T>
-class EinsumGpuOp : public OpKernel {
- public:
-
-  std::string equation_;
-
-  explicit EinsumGpuOp(OpKernelConstruction* context) : OpKernel(context) {
-    context->GetAttr("equation", &equation_);
-  }
-
-  void Compute(OpKernelContext* ctx) override {
-    const Tensor& input_0_tensor = ctx->input(0);
-    const Tensor& input_1_tensor = ctx->input(1);
-
-    std::vector<int64> input_0_shape, input_1_shape;
-    std::vector<int> input_0_shape_int, input_1_shape_int;
-
-    for (int i = 0; i < input_0_tensor.dims(); i++) {
-        input_0_shape.push_back(input_0_tensor.dim_size(i));
-        input_0_shape_int.push_back(input_0_tensor.dim_size(i));
-    }
-    for (int i = 0; i < input_1_tensor.dims(); i++) {
-        input_1_shape.push_back(input_1_tensor.dim_size(i));
-        input_1_shape_int.push_back(input_1_tensor.dim_size(i));
-    }  
-    Einsum<T,int64,12> myEinsum(equation_, input_0_shape, input_1_shape);
-
-    for (auto k : input_0_shape) {
-	    printf("ffffffffff: %d\n", k);
-    }
-    OP_REQUIRES(ctx, myEinsum.isInitialized(), errors::Internal("cutensor_python: Initialization failed."));
-
-    auto output_dims = myEinsum.getOutputShape();
-    Tensor* output_tensor = NULL;
-    TensorShape output_shape = TensorShape(output_dims);
-    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, output_shape, &output_tensor));
-    //ctx->allocate_temp(DataTypeToEnum<T>::value, output_shape, output_tensor);
-
-    size_t worksize = myEinsum.getWorksize();
-    Tensor work_tensor;
-    int64 work_tensor_size = worksize / sizeof(float);
-    TensorShape work_shape = { work_tensor_size };
-    OP_REQUIRES_OK(ctx, ctx->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
-
- //   if (std::is_same<Device, GPUDevice>::value) {
-	   const GPUDevice& device = ctx->eigen_device<Device>();
- //   }
- //   cutensorHandle_t handle;
- //   cutensorInit(&handle);
-    auto* stream = ctx->op_device_context()->stream();
-    auto handleMUMU = stream->parent()->AsTsr()->CreateHandle(
-        stream, equation_, input_0_shape_int, input_1_shape_int);
-    T alpha = (T)1.0f;
-    T beta = (T)0.0f;
-    DoTsrInternal<T>(ctx, stream, handleMUMU.get(), alpha, beta,
-                     input_0_tensor.flat<T>().data(),
-                     input_1_tensor.flat<T>().data(),
-                     output_tensor->flat<T>().data(),
-                     work_tensor.flat<float>().data());
-    // T dmm;
-// auto ret = myEinsum.execute(   &handle,  //GetCuTensorHandle(),
-//                             input_0_tensor.flat<T>().data(),
-//                             input_1_tensor.flat<T>().data(),
-//                             output_tensor->flat<T>().data(),
-//                             work_tensor.flat<float>().data(),
-//                             device.stream());
-//   cutensorHandleDetachPlanCachelines(&handle);
-  //  Status fuc_stat = functor::EinsumCutensorFunctor<Device, T>::Compute(ctx,
-//		     input_0_tensor.flat<T>().data(),input_1_tensor.flat<T>().data(), output_tensor->flat<T>().data(), work_tensor.flat<float>().data(), equation_, {50,50},{50,50} );
-//  
-//    Status functor_status = functor::EinsumCutensorFunctor<Device, T>::Compute(context, equation_); 
-//    if ( std::is_same<Device, GPUDevice>::value) {
-//      auto ret = myEinsum.execute(GetCuTensorHandle(),
-//                                  input_0_tensor.flat<T>().data(),
-//                                  input_1_tensor.flat<T>().data(),
-//                                  output_tensor->flat<T>().data(),
-//                                  work_tensor.flat<float>().data(),
-//                                  device.stream());
-//      OP_REQUIRES(context, ret, errors::Internal("cutensor_python: Launch failed."));
-//    }
-
-    // OP_REQUIRES(ctx, ret, errors::Internal("cutensor_python: Launch failed."));
-  }
-  private:
-   template <typename G>
-   void DoTsrInternal(OpKernelContext* ctx, se::Stream* stream,
-                      se::tsr::Handle* handle, G &alpha, G &beta, const void* A_raw,
-                      const void* B_raw, void* C_raw, void *work_raw) {
-//   void DoTsrInternal(OpKernelContext* ctx, se::Stream* stream,
-//                      se::tsr::Handle* handle, G &alpha, G &beta, const Tensor& A,
-//                      const Tensor&  B, Tensor* C, Tensor& work) {
-//      auto srcA = AsDeviceMemory<G>(A.flat<G>().data());
-//      auto srcB = AsDeviceMemory<G>(B.flat<G>().data());
-//      auto srcC = AsDeviceMemory<G>(C->flat<G>().data());
-//      auto srcwork = AsDeviceMemory<G>(work.flat<float>().data());
-      OP_REQUIRES(
-         ctx, stream->ThenTsrContraction(handle, alpha, beta, A_raw, B_raw, C_raw, work_raw).ok(),
-         errors::Internal("tsr failed "));
-   }
-};
-
-
 
 // Dummy axis label used to denote an ellipsis in an input or output subscript.
 constexpr int kEllipsisLabel = -1;
@@ -710,19 +590,25 @@ struct EinsumHelper {
   }
 };
 
-template <typename Device, typename T>
-class EinsumCpuOp : public OpKernel {
+class EinsumBase : public OpKernel {
  public:
-  explicit EinsumCpuOp(OpKernelConstruction* c) : OpKernel(c) {
-    OP_REQUIRES_OK(c, c->GetAttr("equation", &equation_));
+  explicit EinsumBase(OpKernelConstruction* ctx) : OpKernel(ctx) {
+    OP_REQUIRES_OK(ctx, ctx->GetAttr("equation", &equation_));
     OP_REQUIRES_OK(
-        c, EinsumHelper::ParseEquation(
-               equation_, &input_labels_, &output_labels_, &label_types_,
-               &input_label_counts_, &output_label_counts_,
-               &input_has_ellipsis_, &output_has_ellipsis_));
+        ctx, EinsumHelper::ParseEquation(
+                 equation_, &input_labels_, &output_labels_, &label_types_,
+                 &input_label_counts_, &output_label_counts_,
+                 &input_has_ellipsis_, &output_has_ellipsis_));
   }
 
   void Compute(OpKernelContext* ctx) override {
+    DoEinsum(ctx);
+  }
+  protected:
+  virtual void DoEinsum(OpKernelContext* ctx) = 0;
+
+  template <typename Device, typename T>
+  void ComputeByCompositeFunctors(OpKernelContext* ctx) {
     OpInputList inputs;
     OP_REQUIRES_OK(ctx, ctx->input_list("inputs", &inputs));
 
@@ -732,30 +618,6 @@ class EinsumCpuOp : public OpKernel {
     OperandLabelCounts input_label_counts(input_label_counts_);
     LabelCounts output_label_counts(output_label_counts_);
     LabelToDimSizes label_to_dim_sizes;
-
-//    Einsum<T,int64,12> myEinsum(equation_, {50,50}, {50,50});
-//    myEinsum.isInitialized();
-//
-//    auto output_dims = myEinsum.getOutputShape();
-//    Tensor* output_tensor = NULL;
-//    TensorShape output_shape = TensorShape(output_dims);
-//    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, output_shape, &output_tensor));
-//   // ctx->allocate_temp(DataTypeToEnum<T>::value, output_shape, output_tensor);
-//
-//    size_t worksize = myEinsum.getWorksize();
-//    Tensor work_tensor;
-//    int64 work_tensor_size = worksize / sizeof(float);
-//    TensorShape work_shape = { work_tensor_size };
-//    OP_REQUIRES_OK(ctx, ctx->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
-//
-//    const Tensor& input_0_tensor = ctx->input(0);
-//    const Tensor& input_1_tensor = ctx->input(1);
-//    if (std::is_same<Device, GPUDevice>::value) {
-//	   const GPUDevice& d = ctx->eigen_device<Device>();
-//    }
-//    Status fuc_stat = functor::EinsumCutensorFunctor<Device, T>::Compute(ctx,
-//		     input_0_tensor.flat<T>().data(),input_1_tensor.flat<T>().data(), output_tensor->flat<T>().data(), work_tensor.flat<float>().data(), equation_, {50,50},{50,50} );
-//
 
     OP_REQUIRES_OK(ctx, EinsumHelper::ProcessDimensions(
                             inputs, input_has_ellipsis_, output_has_ellipsis_,
@@ -875,7 +737,7 @@ class EinsumCpuOp : public OpKernel {
     return profiler::TraceMeEncode(std::move(op), {{"equation", equation}});
   }
 
- private:
+
   string equation_;
   OperandLabels input_labels_;
   Labels output_labels_;
@@ -884,6 +746,118 @@ class EinsumCpuOp : public OpKernel {
   LabelCounts output_label_counts_;
   gtl::InlinedVector<bool, 2> input_has_ellipsis_;
   bool output_has_ellipsis_ = false;
+};
+
+template <typename T>
+class EinsumCpuOp : public EinsumBase {
+  public:
+    using EinsumBase::EinsumBase;
+
+  protected:
+   void DoEinsum(OpKernelContext* ctx) override {
+     ComputeByCompositeFunctors<CPUDevice, T>(ctx);
+   }
+};
+
+
+template <typename T>
+class EinsumGpuOp : public EinsumBase {
+  public:
+    using EinsumBase::EinsumBase;
+  protected:
+
+  void DoEinsum(OpKernelContext* ctx) override {
+    // dispatch broadcasting cases to original einsum GPU kernel
+    if (UseCuTensorEinsum() && !absl::c_linear_search(input_has_ellipsis_, true)
+        && !output_has_ellipsis_) {
+      ComputeByCutensor(ctx);
+    } else {
+      ComputeByCompositeFunctors<GPUDevice, T>(ctx);
+    }
+  }
+
+  void ComputeByCutensor(OpKernelContext* ctx) {
+    OpInputList inputs;
+    OP_REQUIRES_OK(ctx, ctx->input_list("inputs", &inputs));
+    const int num_inputs = inputs.size();
+
+    OP_REQUIRES(
+        ctx, ((num_inputs == 1) || (num_inputs == 2)),
+        errors::InvalidArgument(
+            "Einsum must have at least One or Two input Tensor."));
+
+    const Tensor* input_0_tensor = &inputs[0];
+    const Tensor* input_1_tensor;
+
+    if (num_inputs == 2) {
+      input_1_tensor = &inputs[1];
+    }
+
+    std::vector<int> input_0_shape, input_1_shape;
+
+    std::vector<int64> output_dims;
+    T alpha = (T)1.0f;
+    T beta = (T)0.0f;
+    size_t worksize = 0;
+
+    for (int i = 0; i < input_0_tensor->dims(); i++) {
+        input_0_shape.push_back(input_0_tensor->dim_size(i));
+    }
+
+    if (num_inputs == 2) {
+      for (int i = 0; i < input_1_tensor->dims(); i++) {
+          input_1_shape.push_back(input_1_tensor->dim_size(i));
+      }
+    }
+
+    auto* stream = ctx->op_device_context()->stream();
+    se::tsr::TsrTypeHelper::TsrTypeAlias compute_type =
+        se::tsr::TsrTypeHelper::TsrInitType<T>();
+
+    OP_REQUIRES(ctx, compute_type,
+                errors::Internal("Invalid TsrTypeHelper::TsrTypeAlias."));
+
+    OP_REQUIRES_OK(ctx, stream->parent()->AsTsr()->InitializeModes(
+                            stream, output_dims,
+                            compute_type,
+                            equation_, input_0_shape, input_1_shape));
+
+    Tensor* output_tensor = NULL;
+    TensorShape output_shape = TensorShape(output_dims);
+    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, output_shape, &output_tensor));
+
+    OP_REQUIRES(ctx,
+                stream->parent()->AsTsr()->EstimateWorkSpace(
+                    stream, worksize, input_0_tensor->flat<T>().data(),
+                    num_inputs == 1 ? nullptr :
+                    input_1_tensor->flat<T>().data(),
+                    output_tensor->flat<T>().data()),
+                    errors::Internal("Estimate Workspace failed!"));
+
+    Tensor work_tensor;
+    int64 work_tensor_size = worksize / sizeof(float);
+    TensorShape work_shape = { work_tensor_size };
+    OP_REQUIRES_OK(ctx, ctx->allocate_temp(DT_FLOAT, work_shape, &work_tensor));
+
+    OP_REQUIRES(
+        ctx, stream->ThenTsrContraction(
+                 input_0_tensor->flat<T>().data(),
+                 num_inputs == 1 ? nullptr : input_1_tensor->flat<T>().data(),
+                 output_tensor->flat<T>().data(),
+                 work_tensor.flat<float>().data()).ok(),
+        errors::Internal("Compute by CuTensor failed!"));
+  }
+
+  bool UseCuTensorEinsum() {
+  static bool acquire_cutensor_availability = [] {
+    bool compute_with_cutensor = false;
+    TF_CHECK_OK(ReadBoolFromEnvVar("TF_CUTENSOR_EINSUM",
+                                   /*default_val=*/false,
+                                   &compute_with_cutensor));
+    return compute_with_cutensor;
+  }();
+  return acquire_cutensor_availability;
+  }
 };
 
 #if GOOGLE_CUDA || TENSORFLOW_USE_ROCM
@@ -901,13 +875,8 @@ namespace functor {
       const GPUDevice& d, typename TTypes<T, N>::ConstTensor input, \
       const Eigen::DSizes<Eigen::DenseIndex, N>& strides,           \
       typename TTypes<T, N>::Tensor output);                        \
-  extern template struct InflateFunctor<GPUDevice, T, N>;           \
-  template <>                                                       \
-  Status EinsumCutensorFunctor<GPUDevice, T>::Compute(            \
-      OpKernelContext* ctx, const T* input1, const T* input2, T* out, float* work, \
-      string equation, std::vector<int64> xx, std::vector<int64> yy);                      \
-  extern template struct EinsumCutensorFunctor<GPUDevice, T>;    
-  
+  extern template struct InflateFunctor<GPUDevice, T, N>;
+
 #define DECLARE_GPU_SPECS(T) \
   DECLARE_GPU_SPEC(T, 1);    \
   DECLARE_GPU_SPEC(T, 2);    \
@@ -926,20 +895,6 @@ DECLARE_GPU_SPECS(complex128);
 #endif
 #undef DECLARE_GPU_SPEC
 #undef DECLARE_GPU_SPECS
-
-//#define DECLARE_GPU_CUTENSOR_SPEC(T)
-//  template<>
-//  void 
-//#define REGISTER_GPU(T)                                          \
-//  REGISTER_KERNEL_BUILDER(                                       \
-//      Name("EinsumCuTensor").Device(DEVICE_GPU).TypeConstraint<T>("T"), \
-//      EinsumOp<GPUDevice, T>);
-//REGISTER_GPU(double);
-//REGISTER_GPU(float);
-//REGISTER_GPU(Eigen::half);
-//REGISTER_GPU(tensorflow::bfloat16);
-//
-//#undef DECLARRE_GPU_CUTENSOR_SPEC
 
 }  // namespace functor
 #endif  // GOOGLE_CUDA || TENSORFLOW_USE_ROCM
